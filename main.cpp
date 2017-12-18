@@ -12,7 +12,7 @@ using namespace std::complex_literals;
 using namespace boost::numeric::odeint;
 using namespace Eigen;
 
-typedef double fldvar;
+typedef complex<double> fldvar;
 typedef Array<fldvar, 2, 1> fldarr;
 typedef runge_kutta_dopri5<fldarr
                          , double

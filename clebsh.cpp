@@ -7,14 +7,5 @@ using namespace std::complex_literals;
 using std::complex;
 
 complex<double> sphHarm(int l, int m, double theta, double phi) {
-    int sign = m<0 ? -1 : 1;
-    double prefactor;
-
-    if (m < 0) {
-        prefactor = (m%2 ? 1 : -1)*(double)gsl_sf_fact(l-m)/gsl_sf_fact(l+m);
-    } else {
-        prefactor = 1;
-    }
-
-    return prefactor*gsl_sf_legendre_sphPlm(l, sign*m, cos(theta))*exp(1i*(double)m*phi);
+    return gsl_sf_legendre_sphPlm(l, (m<0?-m:m), cos(theta))*exp(1i*(double)m*phi);
 }

@@ -13,7 +13,7 @@ int main() {
     int lmax = 8;
     double dth = 1e-6;
 
-    for (int l=0; l<lmax; l++) {
+    for (int l=0; l<=lmax; l++) {
         for (int m=l; m>=-l; m--) {
             cout << l << " - " << m << " - " << lapSphHarm(dth, l, m, 0.2, 1.2) << ", " << l*(l+1) <<  endl;
         }

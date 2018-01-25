@@ -14,7 +14,20 @@ using namespace Eigen;
 
 typedef complex<double> fldvar;
 typedef Array<fldvar, 2, 1> fldarr;
-typedef runge_kutta_dopri5<fldarr
+
+namespace boost { namespace numeric { namespace odeint {
+template<>
+struct vector_space_norm_inf<fldarr>
+{
+    typedef double result_type;
+    double operator()( const fldarr &p ) const
+    {
+        return real((p.conjugate()*p).sum());
+    }
+};
+} } }
+
+typedef bulirsch_stoer_dense_out<fldarr
                          , double
                          , fldarr
                          , double
@@ -66,7 +79,7 @@ public:
         u[0] = 0.2;
         u[1] = 0.5;
 
-        integrate_const(stpr, eq, u, 0., cutScale, 0.01);
+        integrate_adaptive(stpr, eq, u, 0., cutScale, 0.01);
         return (abs(u[0]) < threshold);
     }
 };

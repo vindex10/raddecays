@@ -34,35 +34,35 @@ typedef bulirsch_stoer_dense_out<fldarr
                          , vector_space_algebra
                          > stepper; 
 
-class Vlin {
+class VlinFunc {
 public:
     double b, alphaS;
 
-    fldvar operator() (const fldarr &u, const double r) {
+    fldvar operator() (const double r) const {
         return -4/3*alphaS/r + b*r;
     }
 };
 
-class Vscr {
+class VscrFunc {
 public:
     double b, mu, alphaS;
 
-    fldvar operator() (const fldarr &u, const double r) {
+    fldvar operator() (const double r) const {
         return -4/3*alphaS + b/mu*(1 - exp(-mu*r));
     }
 };
 
-template <class Vtype>
 class eq_radial_shrod {
 public:
     double rC, muR, E, L;
-    Vtype V;
+    VlinFunc Vlin;
+    VscrFunc Vscr;
 
     void operator() (const fldarr &u, fldarr &dudr, const double r) {
         double ruse = r>rC ? r : rC;
 
         dudr[0] = u[1];
-        dudr[1] = -2*muR*(E - V(u, ruse) - L*(L+1)/2/muR/ruse/ruse)*u[0];
+        dudr[1] = -2*muR*(E - Vlin(ruse) - Vscr(ruse) - L*(L+1)/2/muR/ruse/ruse)*u[0];
     }
 };
 
@@ -86,13 +86,16 @@ public:
 
 int main() {
 
-    testEnerg<eq_radial_shrod<Vlin>> test;
+    testEnerg<eq_radial_shrod> test;
 
     test.eq.muR = 1;
     test.eq.L = 2;
     test.eq.rC = 0.001;
-    test.eq.V.alphaS = 0.5;
-    test.eq.V.b = 4;
+    test.eq.Vlin.alphaS = 0.5;
+    test.eq.Vlin.b = 4;
+    test.eq.Vscr.alphaS = 0.5;
+    test.eq.Vscr.b = 4;
+    test.eq.Vscr.mu = 4;
     test.threshold = 1;
     test.cutScale = 50;
 

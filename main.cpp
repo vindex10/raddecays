@@ -34,6 +34,15 @@ typedef bulirsch_stoer_dense_out<fldarr
                          , vector_space_algebra
                          > stepper; 
 
+
+class SmearedDeltaFunc {
+    double sigma;
+
+    double operator() (double r) {
+        return pow(sigma/sqrt(PI), 3)*exp(-sigma*sigma*r*r);
+    }
+};
+
 class VlinFunc {
 public:
     double b, alphaS;
@@ -49,6 +58,15 @@ public:
 
     fldvar operator() (const double r) const {
         return -4/3*alphaS + b/mu*(1 - exp(-mu*r));
+    }
+};
+
+class VssFunc {
+    double mC, alphaS;
+    SmearedDeltaFunc smearedDelta;
+
+    double operator() (double r) {
+        return 32*PI*alphaS/9/mC/mC*smearedDelta(r)*(xS*xS - xS1*xS1 - xS2*xS2 + 1)/8;
     }
 };
 

@@ -6,18 +6,16 @@ LIBS=-lgsl -lm
 CC=g++ -c $(FLAGS) $(INCLUDE_PATH)
 LINK=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)
 
-OUTPUT_DIR=build
+.PHONY: all clean 
 
-.PHONY: all clebsh clean 
-
-all: clebsh
-	mkdir -p $(OUTPUT_DIR)
-	$(LINK) -o $(OUTPUT_DIR)/main\
-			clebsh.o main.cpp
-
-clebsh: clebsh.o
 clebsh.o: clebsh.cpp 
 	$(CC) -o clebsh.o clebsh.cpp
+
+env_deng2016lin.o: env_deng2016lin.cpp env_deng2016lin.hpp
+	$(CC) -o env_deng2016lin.o env_deng2016lin.cpp
+
+env_deng2016scr.o: env_deng2016scr.cpp env_deng2016scr.hpp
+	$(CC) -o env_deng2016scr.o env_deng2016scr.cpp
 
 clean:
 	rm -rf $(OUTPUT_DIR)

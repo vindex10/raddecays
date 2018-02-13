@@ -6,7 +6,8 @@
 #include <boost/numeric/odeint.hpp>
 #include <Eigen/Dense>
 
-typedef std::complex<double> fldvar;
+//typedef std::complex<double> fldvar;
+typedef double fldvar;
 typedef Eigen::Array<fldvar, 2, 1> fldarr;
 
 namespace boost { namespace numeric { namespace odeint {

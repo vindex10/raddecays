@@ -1,4 +1,5 @@
 /build
+.ipynb_checkpoints
 /tests/*/build
 *.o
 *.dat

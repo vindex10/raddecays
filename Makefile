@@ -17,6 +17,9 @@ env_deng2016lin.o: env_deng2016lin.cpp env_deng2016lin.hpp
 env_deng2016scr.o: env_deng2016scr.cpp env_deng2016scr.hpp
 	$(CC) -o env_deng2016scr.o env_deng2016scr.cpp
 
+observers.o: observers.cpp observers.hpp
+	$(CC) -o observers.o observers.cpp
+
 clean:
 	rm -rf $(OUTPUT_DIR)
 	rm -f *.o

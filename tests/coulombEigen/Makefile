@@ -1,4 +1,4 @@
-NAME=coulomb
+NAME=coulombEigen
 
 SRC=../..
 FLAGS=-std=c++14 # put -O3 here when ready
@@ -16,6 +16,9 @@ DEPS=env_deng2016lin.o
 
 all: $(DEPS)
 	$(LINK) $(addprefix $(SRC)/, $(DEPS)) -o $(NAME) $(NAME).cpp
+
+run:
+	./$(NAME)
 
 $(DEPS):
 	$(EXTMAKE) $@

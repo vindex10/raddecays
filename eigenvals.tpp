@@ -16,7 +16,7 @@ template <typename Eq>
 void EigenVals<Eq>::findmin() {
     double prevF = f();
     double inc = etol + 1;
-    while (inc > etol) {
+    while (abs(inc) > etol) {
         eq.E += estep;
         double inc = prevF*estep/(f() - prevF);
         eq.E -= estep + inc;

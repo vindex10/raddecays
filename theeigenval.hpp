@@ -1,7 +1,7 @@
 #include "types.hpp"
 
 template <typename Eq>
-class EigenVals {
+class TheEigenVal {
 public:
     Eq eq;
     double cutscale, intstep;
@@ -16,4 +16,4 @@ public:
     void findmin();
 };
 
-#include "eigenvals.tpp"
+#include "theeigenval.tpp"

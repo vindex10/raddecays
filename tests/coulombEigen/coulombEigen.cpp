@@ -2,13 +2,13 @@
 #include <fstream>
 #include "env_deng2016lin.hpp"
 #include "eq_coul.hpp"
-#include "eigenvals.hpp"
+#include "theeigenval.hpp"
 
 using namespace std;
 
 int main() {
 
-    EigenVals<EqCoul<EnvLin> > evals;
+    TheEigenVal<EqCoul<EnvLin> > evals;
    
     evals.eq.xJ = 3;
     evals.eq.xL = 1;

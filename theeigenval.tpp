@@ -3,7 +3,7 @@
 
 
 template <typename Eq>
-double EigenVals<Eq>::f() {
+double TheEigenVal<Eq>::f() {
     u[0] = 0;
     u[1] = eq.xL < 1.2 ? 1 : 0; // xL is double, so == is bad idea
 
@@ -13,7 +13,7 @@ double EigenVals<Eq>::f() {
 }
 
 template <typename Eq>
-void EigenVals<Eq>::findmin() {
+void TheEigenVal<Eq>::findmin() {
     double prevF = f();
     double inc = etol + 1;
     while (abs(inc) > etol) {

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <boost/format.hpp>
 #include "env_deng2016lin.hpp"
 #include "eq_coul.hpp"
 #include "theeigenval.hpp"
@@ -20,27 +22,29 @@ int main() {
     evals.eq.env.mC = 1.4830;
     evals.eq.env.muR = evals.eq.env.mC/2;
     evals.eq.env.sigma = 1.1384;
-    evals.eq.env.rC = 1E-3;
-    evals.cutscale = 100;
-    evals.intstep = 1E-2;
-    evals.etol = 1E-6;
-    evals.estep = 1E-2;
-    evals.stpr = stepper(1E-8, 1E-6);
+    evals.eq.env.rC = 1E-6;
+    evals.intstep = 1E-3;
+    evals.stpr = stepper(1E-8, 0);
 
-    double minE = -0.2;
+    vector<double> cutscales{50., 75., 150.};
+
+    double minE = -0.026;
     double maxE = -0.006;
-    int steps = 200;
+    int steps = 10000;
     double step =  (maxE - minE)/steps;
 
-    ofstream fout("asymp.dat");
-    
-    evals.eq.E = minE;
-    for (int i = 0; i<steps; i++) {
-       fout << evals.eq.E << "," << evals.f() << endl;
-       evals.eq.E += step;
+    for (double cutscale: cutscales) {
+        ofstream fout((boost::format("asymp-%1%.dat") % (int)cutscale).str().c_str());
+        
+        evals.cutscale = cutscale;
+        evals.eq.E = minE;
+        for (int i = 0; i<steps; i++) {
+           fout << evals.eq.E << "," << evals.f() << endl;
+           evals.eq.E += step;
+        }
+        
+        fout.close();
     }
-    
-    fout.close();
 
     return 0;
 }

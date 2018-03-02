@@ -22,13 +22,18 @@ struct vector_space_norm_inf<fldarr>
 };
 } } }
 
-//typedef runge_kutta4<fldarr
-//typedef runge_kutta_dopri5<fldarr
+//typedef boost::numeric::odeint::runge_kutta4<fldarr
 typedef boost::numeric::odeint::bulirsch_stoer_dense_out<fldarr
                                                          , double
                                                          , fldarr
                                                          , double
                                                          , boost::numeric::odeint::vector_space_algebra
                                                          > stepper; 
+//typedef boost::numeric::odeint::result_of::make_controlled<boost::numeric::odeint::runge_kutta_dopri5<fldarr
+                                                         //, double
+                                                         //, fldarr
+                                                         //, double
+                                                         //, boost::numeric::odeint::vector_space_algebra
+                                                         //> >::type stepper; 
 
 #endif

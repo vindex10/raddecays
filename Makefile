@@ -1,4 +1,4 @@
-FLAGS=-std=c++14 # put -O3 here when ready
+FLAGS=-std=c++14 -O3 # put -O3 here when ready
 
 INCLUDE_PATH=-I/usr/include/eigen3
 LIBS=-lgsl -lm

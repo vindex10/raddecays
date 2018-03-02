@@ -1,4 +1,4 @@
-NAME=coulombU
+NAME=scanEigens
 
 SRC=../..
 FLAGS=-std=c++14 -O3 # put -O3 here when ready
@@ -10,19 +10,19 @@ CC=g++ -c $(FLAGS) $(INCLUDE_PATH)
 LINK=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)
 
 EXTMAKE=make -C $(SRC)
-DEPS=env_deng2016lin.o observers.o
+DEPS=env_deng2016lin.o 
 
 .PHONY: all clean wipe
 
 all: $(DEPS)
 	$(LINK) $(addprefix $(SRC)/, $(DEPS)) -o $(NAME) $(NAME).cpp
 
-$(DEPS):
-	$(EXTMAKE) $@
-	
 run:
 	./$(NAME)
 
+$(DEPS):
+	$(EXTMAKE) $@
+	
 clean:
 	rm -f *.o
 

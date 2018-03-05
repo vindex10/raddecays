@@ -8,8 +8,12 @@ public:
 
     // Potentials
     double Vv (double r); // Coulomb
-    double Vlin(double r); // Cornell linear confinement
-    double dVlin(double r); // Derivative of Vlin
-    double Vss(double r, double xS, double xS1, double xS2); // Spin-spin doubleeraction
-    double Vsl(double r, double xJ, double xL, double xS); // Spin-orbit doubleeraction
+    double dVv(double r); // Derivative of Vv
+    double ddVv(double r); // 2-Derivative of Vv
+    double Vs(double r); // Cornell linear confinement
+    double dVs(double r); // Derivative of Vlin
+    double Vss(double r, double xS, double xS1, double xS2); // Spin-spin interaction
+    double Vsl(double r, double xJ, double xL, double xS); // Spin-orbit interaction
+    double St(double xJ, double xL, double xS); // Tensor interaction
+    double Vt(double r, double xJ, double xL, double xS); // Tensor interaction
 };

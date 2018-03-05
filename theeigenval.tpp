@@ -3,6 +3,8 @@
 #include <boost/numeric/odeint/util/odeint_error.hpp>
 #include <limits>
 #include <iostream>
+#include <nlopt.hpp>
+#include <vector>
 
 template <typename Eq>
 double TheEigenVal<Eq>::f() {
@@ -19,14 +21,33 @@ double TheEigenVal<Eq>::f() {
 }
 
 template <typename Eq>
-void TheEigenVal<Eq>::findmin() {
-    double prevF = f();
-    double inc = etol + 1;
-    while (abs(inc) > etol &&  eq.E < 0) {
-        eq.E += estep;
-        //inc = prevF*estep/(f() - prevF);
-        inc = (f()-prevF)/estep*1E-20;
-        eq.E -= estep + inc;
-        std::cout << eq.E << " ± " << inc << std::endl;
+double TheEigenVal<Eq>::f_wrap(unsigned n, const double* x, double* grad, void* data) {
+    TheEigenVal<Eq>* self = static_cast<TheEigenVal<Eq>*>(data);
+    self->eq.E = x[0];
+    double res = self->f();
+
+    if (grad) {
+        self->eq.E += self->estep;
+        grad[0] = (self->f()-res)/self->estep;
+        self->eq.E -= self->estep;
     }
+
+    return res;
+}
+
+template <typename Eq>
+double TheEigenVal<Eq>::findmin() {
+    nlopt::opt opt(nlopt::LN_COBYLA, 1);
+    std::vector<double> lb{-HUGE_VAL+eq.E};
+    std::vector<double> ub{eq.E+HUGE_VAL};
+    opt.set_lower_bounds(lb);
+    opt.set_upper_bounds(ub);
+    opt.set_min_objective(TheEigenVal<Eq>::f_wrap, static_cast<void*>(this));
+    opt.set_xtol_abs(etol);
+    std::vector<double> x{eq.E};
+    double minF;
+
+    nlopt::result result = opt.optimize(x, minF);
+    eq.E = x[0];
+    return minF;
 }

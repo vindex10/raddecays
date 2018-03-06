@@ -1,60 +1,77 @@
 #include <iostream>
+#include <cstdlib>
 #include <fstream>
 #include <vector>
+#include <string>
 #include <boost/format.hpp>
+#include <nlohmann/json.hpp>
 #include "env_deng2016lin.hpp"
 #include "eq_quark.hpp"
 #include "theeigenval.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 int main() {
+    
+    json config;
+    ifstream configFile("particles.cfg");
+    configFile >> config;
+    configFile.close();
 
-    TheEigenVal<EqQuark<EnvLin> > evals;
-   
-    evals.eq.xJ = 3;
-    evals.eq.xL = 1;
-    evals.eq.xS = 3;
-    evals.eq.xS1 = 2;
-    evals.eq.xS2 = 2;
-    evals.eq.env.alphaS = 0.5461;
-    evals.eq.env.b = 0.1425;
-    evals.eq.env.mC = 1.4830;
-    evals.eq.env.muR = evals.eq.env.mC/2;
-    evals.eq.env.sigma = 1.1384;
-    evals.eq.env.rC = 0.202;
-    evals.intstep = 1E-2;
-    evals.stpr = stepper(1E-7, 0);
-    evals.etol = 1E-14;
-    evals.estep = 1;
+    system("mkdir -p output");
+    for (json::iterator particle=config.begin(); particle != config.end(); ++particle) {
+        string title = particle.key();
+        system(("mkdir -p output/" + title).c_str());
 
-    vector<double> cutscales{14,16,18,20,22};
+        json p = particle.value();
+        TheEigenVal<EqQuark<EnvLin> > evals;
+       
+        evals.eq.xJ = p["eq"]["xJ"].get<double>();
+        evals.eq.xL = p["eq"]["xL"].get<double>();
+        evals.eq.xS = p["eq"]["xS"].get<double>();
+        evals.eq.xS1 = p["eq"]["xS1"].get<double>();
+        evals.eq.xS2 = p["eq"]["xS2"].get<double>();
+        evals.eq.env.alphaS = p["eq"]["env"]["alphaS"].get<double>();
+        evals.eq.env.b = p["eq"]["env"]["b"].get<double>();
+        evals.eq.env.mC = p["eq"]["env"]["mC"].get<double>();
+        evals.eq.env.muR = evals.eq.env.mC/2;
+        evals.eq.env.sigma = p["eq"]["env"]["sigma"].get<double>();
+        evals.eq.env.rC = p["eq"]["env"]["rC"].get<double>();
+        evals.intstep = p["intstep"].get<double>();
+        evals.stpr = stepper(p["intabsTol"].get<double>(), p["intrelTol"].get<double>());
+        evals.etol = p["etol"].get<double>();
+        evals.estep = p["estep"].get<double>();
+        evals.ewindow = p["ewindow"].get<double>();
 
-    double minE = 0.131-0.008;
-    double maxE = 0.131+0.008;
-    int steps = 1600;
-    double step =  (maxE - minE)/steps;
-    double fval;
+        vector<double> cutscales = p["cutscales"].get<vector<double> >();
+        double minE = p["eq"]["E"].get<double>()-evals.ewindow;
+        double maxE = p["eq"]["E"].get<double>()+evals.ewindow;
+        int steps = p["steps"].get<int>();
+        double step =  (maxE - minE)/steps;
+        double fval;
 
-    ofstream minEf("minE.dat");
-    cout.precision(14);
-    minEf.precision(14);
-    for (double cutscale: cutscales) {
-        ofstream fout((boost::format("asymp-%1%.dat") % (int)cutscale).str().c_str());
-        evals.cutscale = cutscale;
-        evals.eq.E = minE;
-        for (int i = 0; i<steps; i++) {
-           fout << evals.eq.E << "," << evals.f() << endl;
-           evals.eq.E += step;
+        ofstream minEf(("output/" + title + "/minE.dat").c_str());
+        cout.precision(p["outprec"].get<int>());
+        minEf.precision(p["outprec"].get<int>());
+        cout << p["eq"]["E"] << endl;
+        for (double cutscale: cutscales) {
+            ofstream fout(("output/"+title+"/asymp-"+to_string((int)cutscale)+".dat").c_str());
+            evals.cutscale = cutscale;
+            evals.eq.E = minE;
+            for (int i = 0; i<steps; i++) {
+               fout << evals.eq.E << "," << evals.f() << endl;
+               evals.eq.E += step;
+            }
+            fout.close();
+            
+            evals.eq.E = p["eq"]["E"].get<double>();
+            fval = evals.findmin();
+            minEf << cutscale << "," << evals.eq.E << endl;
+            cout << cutscale << "," << evals.eq.E << "," << fval << endl;
         }
-        fout.close();
-        
-        evals.eq.E = (minE+maxE)/2. + 3E-3;
-        fval = evals.findmin();
-        minEf << cutscale << "," << evals.eq.E << endl;
-        cout << cutscale << "," << evals.eq.E << "," << fval << endl;
+        minEf.close();
     }
-    minEf.close();
 
     return 0;
 }

@@ -6,7 +6,7 @@ public:
     Eq eq;
     fldarr u;
     double cutscale, intstep;
-    double etol, estep;
+    double etol, estep, ewindow;
     stepper stpr;
 
     // coefficient near positive exponent on u-asymptotics

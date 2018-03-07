@@ -15,7 +15,7 @@ DEPS=env_deng2016lin.o
 .PHONY: all clean wipe
 
 all: $(DEPS)
-	$(LINK) $(addprefix $(SRC)/, $(DEPS)) -o $(NAME) $(NAME).cpp
+	$(LINK) $(addprefix $(SRC)/, $(DEPS)) -o $(NAME).exe $(NAME).cpp
 
 run:
 	./$(NAME)
@@ -28,4 +28,4 @@ clean:
 
 wipe: clean
 	rm -f *.dat
-	rm -f $(NAME)
+	rm -f $(NAME).exe

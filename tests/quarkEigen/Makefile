@@ -28,4 +28,5 @@ clean:
 
 wipe: clean
 	rm -f *.dat
+	rm -rf output
 	rm -f $(NAME).exe

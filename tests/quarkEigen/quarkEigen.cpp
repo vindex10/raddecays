@@ -49,7 +49,7 @@ int main() {
         double maxE = p["eq"]["E"].get<double>()+evals.ewindow;
         int steps = p["steps"].get<int>();
         double step =  (maxE - minE)/steps;
-        double fval;
+        double fval=0;
 
         ofstream minEf(("output/" + title + "/minE.dat").c_str());
         cout.precision(p["outprec"].get<int>());

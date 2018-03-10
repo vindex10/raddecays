@@ -5,28 +5,29 @@
 #include <string>
 #include <boost/format.hpp>
 #include <nlohmann/json.hpp>
-#include "env_deng2016lin.hpp"
 #include "eq_quark.hpp"
 #include "theeigenval.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
-int main() {
-    
+int main(int argc, string* argv) {
     json config;
-    ifstream configFile("particles.cfg");
+    ifstream configFile(("particles-"+prefix+".cfg").c_str());
     configFile >> config;
     configFile.close();
 
     system("mkdir -p output");
     for (json::iterator particle=config.begin(); particle != config.end(); ++particle) {
-        string title = particle.key();
+        string title = prefix+"/"+particle.key();
         system(("mkdir -p output/" + title).c_str());
 
         json p = particle.value();
+#if defined(ENV_DENG2016LIN_HPP)
         TheEigenVal<EqQuark<EnvLin> > evals;
-       
+#elif defined(ENV_DENG2016SCR_HPP)
+        TheEigenVal<EqQuark<EnvScr> > evals;
+#endif
         evals.eq.xJ = p["eq"]["xJ"].get<double>();
         evals.eq.xL = p["eq"]["xL"].get<double>();
         evals.eq.xS = p["eq"]["xS"].get<double>();
@@ -34,6 +35,9 @@ int main() {
         evals.eq.xS2 = p["eq"]["xS2"].get<double>();
         evals.eq.env.alphaS = p["eq"]["env"]["alphaS"].get<double>();
         evals.eq.env.b = p["eq"]["env"]["b"].get<double>();
+#ifdef ENV_DENG2016SCR_HPP
+        evals.eq.env.mu = p["eq"]["env"]["mu"].get<double>();
+#endif
         evals.eq.env.mC = p["eq"]["env"]["mC"].get<double>();
         evals.eq.env.muR = evals.eq.env.mC/2;
         evals.eq.env.sigma = p["eq"]["env"]["sigma"].get<double>();
@@ -66,7 +70,9 @@ int main() {
             fout.close();
             
             evals.eq.E = p["eq"]["E"].get<double>();
-            fval = evals.findmin();
+            if (argc == 1) {
+                fval = evals.findmin();
+            }
             minEf << cutscale << "," << evals.eq.E << endl;
             cout << cutscale << "," << evals.eq.E << "," << fval << endl;
         }

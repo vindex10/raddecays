@@ -1,3 +1,6 @@
+#ifndef EQ_QUARK_HPP
+#define EQ_QUARK_HPP
+
 #include "types.hpp"
 
 template <class Env>
@@ -10,3 +13,5 @@ public:
 };
 
 #include "eq_quark.tpp"
+
+#endif

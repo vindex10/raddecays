@@ -1,3 +1,6 @@
+#ifndef THEEIGENVAL_HPP
+#define THEEIGENVAL_HPP
+
 #include "types.hpp"
 
 template <typename Eq>
@@ -18,3 +21,5 @@ public:
 };
 
 #include "theeigenval.tpp"
+
+#endif

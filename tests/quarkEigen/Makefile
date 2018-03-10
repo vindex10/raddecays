@@ -10,23 +10,22 @@ CC=g++ -c $(FLAGS) $(INCLUDE_PATH)
 LINK=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)
 
 EXTMAKE=make -C $(SRC)
-DEPS=env_deng2016lin.o 
+DEPS=env_deng2016lin.o env_deng2016scr.o
 
 .PHONY: all clean wipe
 
-all: $(DEPS)
-	$(LINK) $(addprefix $(SRC)/, $(DEPS)) -o $(NAME).exe $(NAME).cpp
-
-run:
-	./$(NAME)
+all: $(NAME)Lin.exe $(NAME)Scr.exe
 
 $(DEPS):
 	$(EXTMAKE) $@
+
+$(NAME)Lin.exe:$(NAME).cpp env_deng2016lin.o
+	$(LINK) -include $(NAME)Lin.hpp $(SRC)/env_deng2016lin.o -o $(NAME)Lin.exe $(NAME).cpp
+
+$(NAME)Scr.exe:$(NAME).cpp env_deng2016scr.o
+	$(LINK) -include $(NAME)Scr.hpp $(SRC)/env_deng2016scr.o -o $(NAME)Scr.exe $(NAME).cpp
 	
 clean:
-	rm -f *.o
-
-wipe: clean
 	rm -f *.dat
 	rm -rf output
-	rm -f $(NAME).exe
+	rm -f *.exe

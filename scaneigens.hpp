@@ -1,3 +1,6 @@
+#ifndef SCANEIGENS_HPP
+#define SCANEIGENS_HPP
+
 #include <vector>
 #include "types.hpp"
 
@@ -13,3 +16,5 @@ class ScanEigens {
 };
 
 #include "scaneigens.tpp"
+
+#endif

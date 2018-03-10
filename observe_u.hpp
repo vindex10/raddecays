@@ -1,3 +1,6 @@
+#ifndef OBSERVE_U_HPP
+#define OBSERVE_U_HPP
+
 #include "types.hpp"
 
 template <typename Eq, typename Observer>
@@ -15,3 +18,5 @@ public:
 };
 
 #include "observe_u.tpp"
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef ENV_DENG2016LIN_HPP
+#define ENV_DENG2016LIN_HPP
+
 class EnvLin {
 public:
     // Free params
@@ -17,3 +20,5 @@ public:
     double St(double xJ, double xL, double xS); // Tensor interaction
     double Vt(double r, double xJ, double xL, double xS); // Tensor interaction
 };
+
+#endif

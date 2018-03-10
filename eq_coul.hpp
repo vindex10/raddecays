@@ -1,3 +1,6 @@
+#ifndef EQ_COUL_HPP
+#define EQ_COUL_HPP
+
 #include "types.hpp"
 
 template <class Env>
@@ -10,3 +13,5 @@ public:
 };
 
 #include "eq_coul.tpp"
+
+#endif

@@ -39,5 +39,5 @@ double EnvLin::St(double xJ, double xL, double xS) {
 }
 
 double EnvLin::Vt(double r, double xJ, double xL, double xS) {
-    return 1./12./mC/mC*(1./r*dVv(r) - ddVv(r))*2.*(fmod((xL-1.+xS-1.-(xJ-1.))/2 + 1., 2.) < 0.5 ? 1. : -1.)*std::sqrt(xL*(xL+1.)*(xL-1.)/4./(xL-2.)/(xL+2))*std::sqrt(xS*(xS+1.)*(xS-1.)*(xS-2.)*(xS+2.)/4.)*gsl_sf_coupling_6j(std::round(xL-1.), std::round(xJ-1.), std::round(xS-1.), std::round(xS-1.), 4, std::round(xL-1.));
+    return 1./12./mC/mC*(1./r*dVv(r) - ddVv(r))*St(xJ, xL, xS);
 }

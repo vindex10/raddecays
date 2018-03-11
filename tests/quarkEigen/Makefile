@@ -24,6 +24,11 @@ $(NAME)Lin.exe:$(NAME).cpp env_deng2016lin.o
 
 $(NAME)Scr.exe:$(NAME).cpp env_deng2016scr.o
 	$(LINK) -include $(NAME)Scr.hpp $(SRC)/env_deng2016scr.o -o $(NAME)Scr.exe $(NAME).cpp
+
+data:
+	../utils/json-merge.py states/particles-b-scr-*.cfg > particles-b-scr.cfg
+	../utils/json-merge.py states/particles-c-scr-*.cfg > particles-c-scr.cfg
+	../utils/json-merge.py states/particles-c-lin-*.cfg > particles-c-lin.cfg
 	
 clean:
 	rm -f *.dat

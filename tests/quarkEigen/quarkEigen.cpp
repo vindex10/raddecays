@@ -11,16 +11,22 @@
 using namespace std;
 using json = nlohmann::json;
 
-int main(int argc, string* argv) {
+int main(int argc, char* argv[]) {
+    cout << "working in `" << prefix << "` mode" << endl;
+
     json config;
-    ifstream configFile(("particles-"+prefix+".cfg").c_str());
+    ifstream configFile(argv[1]);
     configFile >> config;
     configFile.close();
+    
+    string cfgname = string(argv[1]);
+    cfgname = cfgname.substr(0, cfgname.size() - 4);
+    cout << "cfg loaded: " << cfgname << endl;
 
-    system("mkdir -p output");
     for (json::iterator particle=config.begin(); particle != config.end(); ++particle) {
-        string title = prefix+"/"+particle.key();
-        system(("mkdir -p output/" + title).c_str());
+        string title = prefix+"."+cfgname+"/"+particle.key();
+        string outdir = "output/"+title;
+        system(("mkdir -p " + outdir).c_str());
 
         json p = particle.value();
 #if defined(ENV_DENG2016LIN_HPP)
@@ -55,12 +61,12 @@ int main(int argc, string* argv) {
         double step =  (maxE - minE)/steps;
         double fval=0;
 
-        ofstream minEf(("output/" + title + "/minE.dat").c_str());
+        ofstream minEf((outdir+"/minE.dat").c_str());
         cout.precision(p["outprec"].get<int>());
         minEf.precision(p["outprec"].get<int>());
         cout << p["eq"]["E"] << endl;
         for (double cutscale: cutscales) {
-            ofstream fout(("output/"+title+"/asymp-"+to_string((int)cutscale)+".dat").c_str());
+            ofstream fout((outdir+"/asymp-"+boost::str(boost::format("%g")%cutscale)+".dat").c_str());
             evals.cutscale = cutscale;
             evals.eq.E = minE;
             for (int i = 0; i<steps; i++) {
@@ -70,7 +76,7 @@ int main(int argc, string* argv) {
             fout.close();
             
             evals.eq.E = p["eq"]["E"].get<double>();
-            if (argc == 1) {
+            if (argc == 2) {
                 fval = evals.findmin();
             }
             minEf << cutscale << "," << evals.eq.E << endl;

@@ -8,8 +8,8 @@
 
 template <typename Eq>
 double TheEigenVal<Eq>::f() {
-    u[0] = 0;
-    u[1] = eq.xL < 1.2 ? 1 : 0; // xL is double, so == is bad idea
+    eq.initU(u, intstep);
+    eq.initTu(stpr.prevdu, intstep);
 
     try {
         boost::numeric::odeint::integrate_adaptive(stpr, eq, u, 0., cutscale, intstep);
@@ -17,7 +17,7 @@ double TheEigenVal<Eq>::f() {
         u[0] = std::numeric_limits<double>::infinity();
     }
 
-    return std::abs(std::real(u[0])*std::exp(2*eq.env.muR*eq.E*cutscale));
+    return std::abs(std::real(u[0])*std::exp(-std::sqrt(2*eq.env.muR*std::abs(eq.E))*cutscale));
 }
 
 template <typename Eq>

@@ -22,9 +22,9 @@ int main() {
     evals.eq.env.mC = 1.4830;
     evals.eq.env.muR = evals.eq.env.mC/2;
     evals.eq.env.sigma = 1.1384;
-    evals.eq.env.rC = 1E-6;
-    evals.intstep = 1E-3;
-    evals.stpr = stepper(1E-8, 0);
+    evals.eq.env.rC = 1E-2;
+    evals.intstep = 1E-4;
+    evals.stpr = stepper();
 
     vector<double> cutscales{50., 75., 150.};
 

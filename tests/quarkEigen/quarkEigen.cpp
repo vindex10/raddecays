@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <vector>
+#include <set>
 #include <string>
 #include <boost/format.hpp>
 #include <nlohmann/json.hpp>
@@ -23,7 +24,25 @@ int main(int argc, char* argv[]) {
     cfgname = cfgname.substr(0, cfgname.size() - 4);
     cout << "cfg loaded: " << cfgname << endl;
 
+    fstream exclF(("output/"+prefix+"."+cfgname+"/"+cfgname+".exclude").c_str(), fstream::in|fstream::out|fstream::app);
+    set<string> toExclude;
+    exclF.seekg(0);
+    string buf;
+    cout <<endl;
+    cout << "Exclusions:" << endl;
+    while (exclF >> buf) {
+        toExclude.insert(buf);
+        cout << buf << endl;
+    }
+    cout << endl;
+    exclF.clear();
+    exclF.seekp(0, ios_base::end);
+
     for (json::iterator particle=config.begin(); particle != config.end(); ++particle) {
+        if (toExclude.find(particle.key()) != toExclude.end()) {
+            cout << "* excluding " << particle.key() << endl;
+            continue;
+        }
         string title = prefix+"."+cfgname+"/"+particle.key();
         string outdir = "output/"+title;
         system(("mkdir -p " + outdir).c_str());
@@ -49,7 +68,8 @@ int main(int argc, char* argv[]) {
         evals.eq.env.sigma = p["eq"]["env"]["sigma"].get<double>();
         evals.eq.env.rC = p["eq"]["env"]["rC"].get<double>();
         evals.intstep = p["intstep"].get<double>();
-        evals.stpr = stepper(p["intabsTol"].get<double>(), p["intrelTol"].get<double>());
+        //evals.stpr = stepper(p["intabsTol"].get<double>(), p["intrelTol"].get<double>());
+        evals.stpr = stepper();
         evals.etol = p["etol"].get<double>();
         evals.estep = p["estep"].get<double>();
         evals.ewindow = p["ewindow"].get<double>();
@@ -64,7 +84,7 @@ int main(int argc, char* argv[]) {
         ofstream minEf((outdir+"/minE.dat").c_str());
         cout.precision(p["outprec"].get<int>());
         minEf.precision(p["outprec"].get<int>());
-        cout << p["eq"]["E"] << endl;
+        cout << particle.key() << "(" << p["eq"]["E"] << ")" << endl;
         for (double cutscale: cutscales) {
             ofstream fout((outdir+"/asymp-"+boost::str(boost::format("%g")%cutscale)+".dat").c_str());
             evals.cutscale = cutscale;
@@ -82,8 +102,10 @@ int main(int argc, char* argv[]) {
             minEf << cutscale << "," << evals.eq.E << endl;
             cout << cutscale << "," << evals.eq.E << "," << fval << endl;
         }
+        exclF << particle.key() << endl;
         minEf.close();
     }
+    exclF.close();
 
     return 0;
 }

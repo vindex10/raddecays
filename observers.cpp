@@ -4,5 +4,5 @@
 #include "observers.hpp"
 
 void uObserverToFile::operator() (const fldarr &u, double t) {
-    *fout << t << "|" << u[0] << "|" <<  u[1] << std::endl;
+    *fout << t << "," << u[0] << std::endl;
 }

@@ -4,6 +4,7 @@
 #include <limits>
 #include <iostream>
 #include <nlopt.hpp>
+#include <nlohmann/json.hpp>
 #include <vector>
 
 template <typename Eq>
@@ -50,4 +51,47 @@ double TheEigenVal<Eq>::findmin() {
     nlopt::result result = opt.optimize(x, minF);
     eq.E = x[0];
     return minF;
+}
+
+template <typename Eq>
+void from_json(const nlohmann::json &j, TheEigenVal<Eq>& p) {
+    try {
+        p.intstep = j.at("intstep").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.etol = j.at("etol").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.estep = j.at("estep").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        p.ewindow = j.at("ewindow").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        p.eq = j.at("eq");
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
 }

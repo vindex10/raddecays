@@ -1,4 +1,6 @@
 #include <cmath>
+#include <iostream>
+#include <nlohmann/json.hpp>
 #include <gsl/gsl_sf_coupling.h>
 #include "env_deng2016lin.hpp"
 
@@ -40,4 +42,54 @@ double EnvLin::St(double xJ, double xL, double xS) {
 
 double EnvLin::Vt(double r, double xJ, double xL, double xS) {
     return 1./12./mC/mC*(1./r*dVv(r) - ddVv(r))*St(xJ, xL, xS);
+}
+
+void from_json(const nlohmann::json& j, EnvLin& p) {
+    try {
+        p.alphaS = j.at("alphaS").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        p.b = j.at("b").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        p.mC = j.at("mC").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        p.muR = p.mC/2.;
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        p.sigma = j.at("sigma").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.rC = j.at("rC").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
 }

@@ -22,9 +22,12 @@ int main(int argc, char* argv[]) {
     
     string cfgname = string(argv[1]);
     cfgname = cfgname.substr(0, cfgname.size() - 4);
+    string title = prefix+"."+cfgname;
     cout << "cfg loaded: " << cfgname << endl;
+    system(("mkdir -p output/"+title).c_str());
+    system(("cp -i "+string(argv[1])+" output/"+title+"/config").c_str());
 
-    fstream exclF(("output/"+prefix+"."+cfgname+"/"+cfgname+".exclude").c_str(), fstream::in|fstream::out|fstream::app);
+    fstream exclF(("output/"+prefix+"."+cfgname+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
     set<string> toExclude;
     exclF.seekg(0);
     string buf;
@@ -43,8 +46,7 @@ int main(int argc, char* argv[]) {
             cout << "* excluding " << particle.key() << endl;
             continue;
         }
-        string title = prefix+"."+cfgname+"/"+particle.key();
-        string outdir = "output/"+title;
+        string outdir = "output/"+title+"/"+particle.key();
         system(("mkdir -p " + outdir).c_str());
 
         json p = particle.value();

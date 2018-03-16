@@ -3,7 +3,7 @@ NAME=coulombEigen
 SRC=../..
 FLAGS=-std=c++14 -O3# put -O3 here when ready
 
-INCLUDE_PATH=-I/usr/include/eigen3 -I$(SRC)
+INCLUDE_PATH=-I/usr/include/eigen3 -I$(SRC) -I$(SRC)/json/single_include
 LIBS=-lm -lgsl
 
 CC=g++ -c $(FLAGS) $(INCLUDE_PATH)

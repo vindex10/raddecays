@@ -1,6 +1,7 @@
 #ifndef THEEIGENVAL_HPP
 #define THEEIGENVAL_HPP
 
+#include <nlohmann/json.hpp>
 #include "types.hpp"
 
 template <typename Eq>
@@ -19,6 +20,9 @@ public:
     // find minimum of coefficient with gradient descent
     double findmin();
 };
+
+template <typename Eq>
+void from_json(const nlohmann::json &j, TheEigenVal<Eq>& p);
 
 #include "theeigenval.tpp"
 

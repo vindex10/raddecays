@@ -21,9 +21,8 @@ generate: data $(NAME)Lin.exe $(NAME)Scr.exe
 	./$(NAME)Lin.exe c-lin.cfg
 
 data:
-	../utils/json-merge.py states/b-scr-{S,P,D,F}.cfg > b-scr.cfg
-	../utils/json-merge.py states/c-scr-{S,P,D}.cfg > c-scr.cfg
-	../utils/json-merge.py states/c-lin-{S,P,D}.cfg > c-lin.cfg
+	cp states/{b,c}-scr.cfg .
+	cp states/c-lin.cfg .
 
 $(NAME)Lin.exe:$(NAME).cpp env_deng2016lin.o
 	$(LINK) -include $(NAME)Lin.hpp $(SRC)/env_deng2016lin.o -o $(NAME)Lin.exe $(NAME).cpp

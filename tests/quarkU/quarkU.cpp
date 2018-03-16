@@ -1,57 +1,97 @@
 #include <iostream>
+#include <iomanip>
+#include <cstdlib>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <set>
 #include <vector>
 #include <boost/format.hpp>
-#include "env_deng2016scr.hpp"
+#include <nlohmann/json.hpp>
 #include "eq_quark.hpp"
-#include "observe_u.hpp"
 #include "observers.hpp"
+#include "observe_u.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
-int main() {
+int main(int argc, char* argv[]) {
 
-    ObserveU<EqQuark<EnvScr>, uObserverToFile > observu;
+    cout.precision(14);
+    cout << "working in `" << prefix << "` mode" << endl;
+
+    string cfgname = string(argv[1]);
+    cfgname = cfgname.substr(0, cfgname.size() - 4);
+    cout << "cfg loaded: " << cfgname << endl;
+
+    string title = prefix+"."+cfgname;
+    system(("mkdir -p output/"+title).c_str());
+
+    fstream exclF(("output/"+title+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
+    set<string> toExclude;
+    exclF.seekg(0);
+    string buf;
+    cout <<endl;
+    cout << "Exclusions:" << endl;
+    while (exclF >> buf) {
+        toExclude.insert(buf);
+        cout << buf << endl;
+    }
+    cout << endl;
+    exclF.clear();
+    exclF.seekp(0, ios_base::end);
+
+    ifstream pparamF(("../quarkEigen/output/"+title+"/config").c_str());
+    json pparams;
+    pparamF >> pparams;
+    pparamF.close();
+
+    for (json::iterator particle=pparams.begin(); particle != pparams.end(); ++particle) {
+        if (toExclude.find(particle.key()) != toExclude.end()) {
+            cout << "* excluding " << particle.key() << endl;
+            continue;
+        }
+        cout << particle.key() << endl;
+
+#if defined(ENV_DENG2016LIN_HPP)
+        ObserveU<EqQuark<EnvLin>, uObserverToFile > observu;
+#elif defined(ENV_DENG2016SCR_HPP)
+        ObserveU<EqQuark<EnvScr>, uObserverToFile > observu;
+#endif
+
+        observu.eq = particle.value()["eq"];
+        observu.rMin = 0.;
+        observu.rMax = particle.value()["cutscales"].get<vector<double>>().back();
+        observu.step = particle.value()["intstep"].get<double>();
+
+        //read fitted energy
+        ifstream energF(("../quarkEigen/output/"+title+"/"+particle.key()+"/minE.dat").c_str());
+        string item,tmp;
+        while (getline(energF, tmp)) {
+            item = tmp;
+        }
+        stringstream linestr(item);
+        while (getline(linestr, item, ','));
+        stringstream i;
+        i.precision(14);
+        i << item;
+        i >> observu.eq.E;
+
+        observu.stpr = stepper();
+
+        string outF = "output/"+title+"/"+particle.key();
+        ofstream fout(outF.c_str());
+        observu.obs.fout = &fout;
+
+        fout.precision(14);
+        fout << "r" << "," << "u" << endl;
+        observu();
+        fout.close();
+
+        exclF << particle.key() << endl;
+    }
+    exclF.close();
    
-    observu.eq.xJ = 3;
-    observu.eq.xL = 1;
-    observu.eq.xS = 3;
-    observu.eq.xS1 = 2;
-    observu.eq.xS2 = 2;
-    observu.eq.env.alphaS = 0.3683;
-    observu.eq.env.b = 0.2062;
-    observu.eq.env.mC = 4.7572;
-    observu.eq.env.mu = 0.05611;
-    observu.eq.env.muR = observu.eq.env.mC/2;
-    observu.eq.env.sigma = 3.1025;
-    observu.eq.env.rC = 0.30467198680443935261;
-    //observu.eq.env.alphaS = 0.5461;
-    //observu.eq.env.b = 0.1425;
-    //observu.eq.env.mC = 1.4830;
-    //observu.eq.env.muR = observu.eq.env.mC/2;
-    //observu.eq.env.sigma = 1.1384;
-    //observu.eq.env.rC = 0.202;
-    observu.rMin = 0;
-    observu.rMax = 12;
-    observu.step = 1E-2;
-    observu.stpr = stepper();
-
-    //observu.eq.E = 0.35148258; //chi_b0_1P
-    //observu.eq.E = 1.09124138; // yps_4S
-    observu.eq.E = 0.83844501; //yps_3S
-
-
-
-    ofstream fout("points.dat");
-    observu.obs.fout = &fout;
-
-    fout.precision(14);
-    fout << "r" << "|" << "u" << "|" << "du" << endl;
-
-    observu();
-
-    fout.close();
 
     return 0;
 }

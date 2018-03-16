@@ -1,6 +1,6 @@
 FLAGS=-std=c++14 -O3 # put -O3 here when ready
 
-INCLUDE_PATH=-I/usr/include/eigen3
+INCLUDE_PATH=-I/usr/include/eigen3 -I./json/single_include
 LIBS=-lgsl -lm
 
 CC=g++ -c $(FLAGS) $(INCLUDE_PATH)

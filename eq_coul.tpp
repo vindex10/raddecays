@@ -1,4 +1,6 @@
+#include <nlohmann/json.hpp>
 #include <cmath>
+#include <iostream>
 #include "types.hpp"
 
 template <typename Env>
@@ -40,4 +42,64 @@ void EqCoul<Env>::initTu (cnt &Tu, double h) {
     operator()(fldarr(), Tu[0], h);
     Tu[0] *= std::pow(h, (xL+1.)/2.);
     Tu[1] = (xL < 3.2 && xL > 2.8 ? 2 : 0);
+}
+
+template <typename Env>
+void from_json(const nlohmann::json &j, EqCoul<Env>& p) {
+    try {
+        p.xJ = j.at("xJ").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.xL = j.at("xL").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.xS = j.at("xS").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.xS1 = j.at("xS1").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.xS2 = j.at("xS2").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.E = j.at("E").get<double>();
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        p.env = j.at("env");
+    } catch(nlohmann::json::type_error& e) {
+        std::cerr << e.what() << std::endl;
+    } catch(nlohmann::json::out_of_range& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
 }

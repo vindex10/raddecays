@@ -4,7 +4,7 @@ SRC=../..
 FLAGS=-std=c++14 -O3# put -O3 here when ready
 
 INCLUDE_PATH=-I/usr/include/eigen3 -I$(SRC) -I$(SRC)/json/single_include
-LIBS=-lm -lgsl -lnlopt_cxx
+LIBS=-lm -lgsl -lnlopt_cxx -lboost_system -lboost_filesystem
 
 CC=g++ -c $(FLAGS) $(INCLUDE_PATH)
 LINK=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)
@@ -15,14 +15,10 @@ EXTMAKE=make -C $(SRC)
 
 all: $(NAME)Lin.exe $(NAME)Scr.exe
 
-generate: data $(NAME)Lin.exe $(NAME)Scr.exe
-	./$(NAME)Scr.exe b-scr.cfg
-	./$(NAME)Scr.exe c-scr.cfg
-	./$(NAME)Lin.exe c-lin.cfg
-
-data:
-	cp states/{b,c}-scr.cfg .
-	cp states/c-lin.cfg .
+generate: $(NAME)Lin.exe $(NAME)Scr.exe
+	./$(NAME)Scr.exe states/b-scr.cfg
+	./$(NAME)Scr.exe states/c-scr.cfg
+	./$(NAME)Lin.exe states/c-lin.cfg
 
 $(NAME)Lin.exe:$(NAME).cpp env_deng2016lin.o
 	$(LINK) -include $(NAME)Lin.hpp $(SRC)/env_deng2016lin.o -o $(NAME)Lin.exe $(NAME).cpp
@@ -36,4 +32,3 @@ env_deng2016lin.o env_deng2016scr.o:
 clean:
 	rm -rf output
 	rm -f *.exe
-	rm -f {b,c}-{scr,lin}.cfg

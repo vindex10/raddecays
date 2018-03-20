@@ -5,12 +5,14 @@
 #include <set>
 #include <string>
 #include <boost/format.hpp>
+#include <boost/filesystem.hpp>
 #include <nlohmann/json.hpp>
 #include "eq_quark.hpp"
 #include "theeigenval.hpp"
 
 using namespace std;
 using json = nlohmann::json;
+namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[]) {
     cout << "working in `" << prefix << "` mode" << endl;
@@ -20,12 +22,11 @@ int main(int argc, char* argv[]) {
     configFile >> config;
     configFile.close();
     
-    string cfgname = string(argv[1]);
-    cfgname = cfgname.substr(0, cfgname.size() - 4);
+    string cfgname = fs::path(argv[1]).stem().string();
     string title = prefix+"."+cfgname;
     cout << "cfg loaded: " << cfgname << endl;
-    system(("mkdir -p output/"+title).c_str());
-    system(("cp -i "+string(argv[1])+" output/"+title+"/config").c_str());
+    fs::create_directories(("output/"+title).c_str());
+    fs::copy_file(argv[1], ("output/"+title+"/config").c_str(), fs::copy_option::overwrite_if_exists);
 
     fstream exclF(("output/"+prefix+"."+cfgname+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
     set<string> toExclude;
@@ -47,34 +48,17 @@ int main(int argc, char* argv[]) {
             continue;
         }
         string outdir = "output/"+title+"/"+particle.key();
-        system(("mkdir -p " + outdir).c_str());
+        fs::create_directories(outdir.c_str());
 
         json p = particle.value();
+
 #if defined(ENV_DENG2016LIN_HPP)
         TheEigenVal<EqQuark<EnvLin> > evals;
 #elif defined(ENV_DENG2016SCR_HPP)
         TheEigenVal<EqQuark<EnvScr> > evals;
 #endif
-        evals.eq.xJ = p["eq"]["xJ"].get<double>();
-        evals.eq.xL = p["eq"]["xL"].get<double>();
-        evals.eq.xS = p["eq"]["xS"].get<double>();
-        evals.eq.xS1 = p["eq"]["xS1"].get<double>();
-        evals.eq.xS2 = p["eq"]["xS2"].get<double>();
-        evals.eq.env.alphaS = p["eq"]["env"]["alphaS"].get<double>();
-        evals.eq.env.b = p["eq"]["env"]["b"].get<double>();
-#ifdef ENV_DENG2016SCR_HPP
-        evals.eq.env.mu = p["eq"]["env"]["mu"].get<double>();
-#endif
-        evals.eq.env.mC = p["eq"]["env"]["mC"].get<double>();
-        evals.eq.env.muR = evals.eq.env.mC/2;
-        evals.eq.env.sigma = p["eq"]["env"]["sigma"].get<double>();
-        evals.eq.env.rC = p["eq"]["env"]["rC"].get<double>();
-        evals.intstep = p["intstep"].get<double>();
-        //evals.stpr = stepper(p["intabsTol"].get<double>(), p["intrelTol"].get<double>());
-        evals.stpr = stepper();
-        evals.etol = p["etol"].get<double>();
-        evals.estep = p["estep"].get<double>();
-        evals.ewindow = p["ewindow"].get<double>();
+
+        evals = p;
 
         vector<double> cutscales = p["cutscales"].get<vector<double> >();
         double minE = p["eq"]["E"].get<double>()-evals.ewindow;

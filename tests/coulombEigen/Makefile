@@ -4,7 +4,7 @@ SRC=../..
 FLAGS=-std=c++14 -O3# put -O3 here when ready
 
 INCLUDE_PATH=-I/usr/include/eigen3 -I$(SRC) -I$(SRC)/json/single_include
-LIBS=-lm -lgsl
+LIBS=-lm -lgsl -lboost_system -lboost_filesystem
 
 CC=g++ -c $(FLAGS) $(INCLUDE_PATH)
 LINK=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)

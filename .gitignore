@@ -1,6 +1,4 @@
-/build
 .ipynb_checkpoints
-/tests/*/build
 /tests/*/output
 *.exe
 *.o

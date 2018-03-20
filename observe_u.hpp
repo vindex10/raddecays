@@ -8,7 +8,7 @@ template <typename Eq, typename Observer>
 class ObserveU {
 public:
     Eq eq;
-    double rMin, rMax, step;
+    double rMax, step;
 
     fldarr u;
     stepper stpr;

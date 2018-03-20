@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
             cout << "* excluding " << particle.key() << endl;
             continue;
         }
-        string outdir = "output/"+title+"/"+particle.key();
+        string outdir = "output/"+title+"/data/"+particle.key();
         fs::create_directories(outdir.c_str());
 
         json p = particle.value();

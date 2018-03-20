@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 #include <boost/format.hpp>
+#include <boost/filesystem.hpp>
 #include <nlohmann/json.hpp>
 #include "eq_quark.hpp"
 #include "observers.hpp"
@@ -14,19 +15,20 @@
 
 using namespace std;
 using json = nlohmann::json;
+namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[]) {
 
     cout.precision(14);
     cout << "working in `" << prefix << "` mode" << endl;
 
-    string cfgname = string(argv[1]);
-    cfgname = cfgname.substr(0, cfgname.size() - 4);
+    string cfgname = fs::path(argv[1]).stem().string();
     cout << "cfg loaded: " << cfgname << endl;
 
     string title = prefix+"."+cfgname;
-    system(("mkdir -p output/"+title).c_str());
-
+    fs::create_directories("output/"+title);
+    fs::copy_file(argv[1], "output/"+title+"/config", fs::copy_option::overwrite_if_exists);
+    
     fstream exclF(("output/"+title+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
     set<string> toExclude;
     exclF.seekg(0);
@@ -46,6 +48,7 @@ int main(int argc, char* argv[]) {
     pparamF >> pparams;
     pparamF.close();
 
+
     for (json::iterator particle=pparams.begin(); particle != pparams.end(); ++particle) {
         if (toExclude.find(particle.key()) != toExclude.end()) {
             cout << "* excluding " << particle.key() << endl;
@@ -60,12 +63,11 @@ int main(int argc, char* argv[]) {
 #endif
 
         observu.eq = particle.value()["eq"];
-        observu.rMin = 0.;
         observu.rMax = particle.value()["cutscales"].get<vector<double>>().back();
         observu.step = particle.value()["intstep"].get<double>();
 
         //read fitted energy
-        ifstream energF(("../quarkEigen/output/"+title+"/"+particle.key()+"/minE.dat").c_str());
+        ifstream energF(("../quarkEigen/output/"+title+"/data/"+particle.key()+"/minE.dat").c_str());
         string item,tmp;
         while (getline(energF, tmp)) {
             item = tmp;
@@ -79,7 +81,8 @@ int main(int argc, char* argv[]) {
 
         observu.stpr = stepper();
 
-        string outF = "output/"+title+"/"+particle.key();
+        fs::create_directory("output/"+title+"/data");
+        string outF = "output/"+title+"/data/"+particle.key();
         ofstream fout(outF.c_str());
         observu.obs.fout = &fout;
 

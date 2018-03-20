@@ -6,12 +6,9 @@ LIBS=-lm -lgsl
 
 LINK=g++ -std=c++14 $(INCLUDE_PATH) $(LIBS)
 
-OUTPUT_DIR=build
-
 all:
-	make -C $(PRJ_DIR) clebsh
-	mkdir -p $(OUTPUT_DIR)
-	$(LINK) -o $(OUTPUT_DIR)/$(NAME) $(PRJ_DIR)/clebsh.o $(NAME).cpp
+	make -C $(PRJ_DIR) clebsh.o
+	$(LINK) -o $(NAME).exe $(PRJ_DIR)/clebsh.o $(NAME).cpp
 
 clean:
-	rm -rf $(OUTPUT_DIR)
+	rm -f $(NAME).exe

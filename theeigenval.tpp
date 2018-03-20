@@ -13,7 +13,7 @@ double TheEigenVal<Eq>::f() {
     eq.initTu(stpr.prevdu, intstep);
 
     try {
-        boost::numeric::odeint::integrate_adaptive(stpr, eq, u, 0., cutscale, intstep);
+        boost::numeric::odeint::integrate_adaptive(stpr, eq, u, intstep, cutscale, intstep);
     } catch(const boost::numeric::odeint::step_adjustment_error& e) {
         u[0] = std::numeric_limits<double>::infinity();
     }

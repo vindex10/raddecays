@@ -20,14 +20,13 @@ namespace fs = boost::filesystem;
 int main(int argc, char* argv[]) {
 
     cout.precision(14);
-    cout << "working in `" << prefix << "` mode" << endl;
+    cout << "working in `" << PREFIX << "` mode" << endl;
 
     string cfgname = fs::path(argv[1]).stem().string();
     cout << "cfg loaded: " << cfgname << endl;
 
-    string title = prefix+"."+cfgname;
+    string title = PREFIX+"."+cfgname;
     fs::create_directories("output/"+title);
-    fs::copy_file(argv[1], "output/"+title+"/config", fs::copy_option::overwrite_if_exists);
     
     fstream exclF(("output/"+title+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
     set<string> toExclude;
@@ -43,13 +42,19 @@ int main(int argc, char* argv[]) {
     exclF.clear();
     exclF.seekp(0, ios_base::end);
 
-    ifstream pparamF(("../quarkEigen/output/"+title+"/config").c_str());
-    json pparams;
-    pparamF >> pparams;
-    pparamF.close();
+    fs::copy_file("../quarkEigen/output/"+title+"/config", "output/"+title+"/eigen_config", fs::copy_option::overwrite_if_exists);
+    ifstream eigenF(("output/"+title+"/eigen_config").c_str());
+    json eigenP;
+    eigenF >> eigenP;
+    eigenF.close();
 
+    fs::copy_file(argv[1], "output/"+title+"/config", fs::copy_option::overwrite_if_exists);
+    ifstream cfgF(("output/"+title+"/config").c_str());
+    json cfgP;
+    cfgF >> cfgP;
+    cfgF.close();
 
-    for (json::iterator particle=pparams.begin(); particle != pparams.end(); ++particle) {
+    for (json::iterator particle=eigenP.begin(); particle != eigenP.end(); ++particle) {
         if (toExclude.find(particle.key()) != toExclude.end()) {
             cout << "* excluding " << particle.key() << endl;
             continue;
@@ -62,9 +67,18 @@ int main(int argc, char* argv[]) {
         ObserveU<EqQuark<EnvScr>, uObserverToFile > observu;
 #endif
 
+        try {
+            observu.rMax = cfgP.at(particle.key()).at("rMax").get<double>();
+        } catch (json::out_of_range &e) {
+            observu.rMax = particle.value().at("cutscales").get<vector<double>>().back();
+        }
+        try {
+            observu.step = cfgP.at(particle.key()).at("step").get<double>();
+        } catch (json::out_of_range &e) {
+            observu.step = particle.value().at("intstep").get<double>();
+        }
+
         observu.eq = particle.value()["eq"];
-        observu.rMax = particle.value()["cutscales"].get<vector<double>>().back();
-        observu.step = particle.value()["intstep"].get<double>();
 
         //read fitted energy
         ifstream energF(("../quarkEigen/output/"+title+"/data/"+particle.key()+"/minE.dat").c_str());
@@ -78,6 +92,10 @@ int main(int argc, char* argv[]) {
         i.precision(14);
         i << item;
         i >> observu.eq.E;
+
+        try {
+            observu.eq = cfgP.at(particle.key()).at("eq");
+        } catch(json::out_of_range &e) {}
 
         observu.stpr = stepper();
 

@@ -8,13 +8,12 @@
 #include <vector>
 #include <boost/format.hpp>
 #include <boost/filesystem.hpp>
-#include <nlohmann/json.hpp>
+#include "json_types.hpp"
 #include "eq_quark.hpp"
 #include "observers.hpp"
 #include "observe_u.hpp"
 
 using namespace std;
-using json = nlohmann::json;
 namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[]) {
@@ -42,7 +41,7 @@ int main(int argc, char* argv[]) {
     exclF.clear();
     exclF.seekp(0, ios_base::end);
 
-    fs::copy_file("../quarkEigen/output/"+title+"/config", "output/"+title+"/eigen_config", fs::copy_option::overwrite_if_exists);
+    fs::copy_file("../quarkEigen/output/"+title+"/"+cfgname+".cfg", "output/"+title+"/eigen_config", fs::copy_option::overwrite_if_exists);
     ifstream eigenF(("output/"+title+"/eigen_config").c_str());
     json eigenP;
     eigenF >> eigenP;

@@ -1,8 +1,8 @@
 #ifndef EQ_QUARK_HPP
 #define EQ_QUARK_HPP
 
-#include <nlohmann/json.hpp>
-#include "types.hpp"
+#include "odeint_types.hpp"
+#include "json_types.hpp"
 
 template <class Env>
 class EqQuark {
@@ -17,7 +17,7 @@ public:
 };
 
 template <typename Env>
-void from_json(const nlohmann::json &j, EqQuark<Env>& p);
+void from_json(const json &j, EqQuark<Env>& p);
 
 #include "eq_quark.tpp"
 

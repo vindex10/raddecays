@@ -2,7 +2,8 @@
 #define THEEIGENVAL_HPP
 
 #include <nlohmann/json.hpp>
-#include "types.hpp"
+#include "odeint_types.hpp"
+#include "json_types.hpp"
 
 template <typename Eq>
 class TheEigenVal {
@@ -22,7 +23,7 @@ public:
 };
 
 template <typename Eq>
-void from_json(const nlohmann::json &j, TheEigenVal<Eq>& p);
+void from_json(const json &j, TheEigenVal<Eq>& p);
 
 #include "theeigenval.tpp"
 

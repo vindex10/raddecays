@@ -4,14 +4,14 @@
 #include <vector>
 #include <set>
 #include <string>
+#include <cmath>
 #include <boost/format.hpp>
 #include <boost/filesystem.hpp>
-#include <nlohmann/json.hpp>
 #include "eq_quark.hpp"
 #include "theeigenval.hpp"
+#include "json_types.hpp"
 
 using namespace std;
-using json = nlohmann::json;
 namespace fs = boost::filesystem;
 
 int main(int argc, char* argv[]) {
@@ -26,9 +26,9 @@ int main(int argc, char* argv[]) {
     string title = prefix+"."+cfgname;
     cout << "cfg loaded: " << cfgname << endl;
     fs::create_directories(("output/"+title).c_str());
-    fs::copy_file(argv[1], ("output/"+title+"/config").c_str(), fs::copy_option::overwrite_if_exists);
+    fs::copy_file(argv[1], ("output/"+title+"/"+cfgname+".old.cfg").c_str(), fs::copy_option::overwrite_if_exists);
 
-    fstream exclF(("output/"+prefix+"."+cfgname+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
+    fstream exclF(("output/"+title+"/exclude").c_str(), fstream::in|fstream::out|fstream::app);
     set<string> toExclude;
     exclF.seekg(0);
     string buf;
@@ -71,12 +71,15 @@ int main(int argc, char* argv[]) {
         cout.precision(p["outprec"].get<int>());
         minEf.precision(p["outprec"].get<int>());
         cout << particle.key() << "(" << p["eq"]["E"] << ")" << endl;
+        double maxVal = DBL_MIN;
         for (double cutscale: cutscales) {
             ofstream fout((outdir+"/asymp-"+boost::str(boost::format("%g")%cutscale)+".dat").c_str());
             evals.cutscale = cutscale;
             evals.eq.E = minE;
             for (int i = 0; i<steps; i++) {
-               fout << evals.eq.E << "," << evals.f() << endl;
+                double val = evals.f();
+               fout << evals.eq.E << "," << val << endl;
+               maxVal = val > maxVal ? val : maxVal;
                evals.eq.E += step;
             }
             fout.close();
@@ -88,10 +91,15 @@ int main(int argc, char* argv[]) {
             minEf << cutscale << "," << evals.eq.E << endl;
             cout << cutscale << "," << evals.eq.E << "," << fval << endl;
         }
+        config[particle.key()]["etol"] = pow(10, log10(maxVal) - p["damping"].get<double>());
         exclF << particle.key() << endl;
         minEf.close();
     }
     exclF.close();
+    
+    ofstream newcfg("output/"+title+"/"+cfgname+".cfg");
+    newcfg << config;
+    newcfg.close();
 
     return 0;
 }

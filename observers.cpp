@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "types.hpp"
+#include "odeint_types.hpp"
 #include "observers.hpp"
 
 void uObserverToFile::operator() (const fldarr &u, double t) {

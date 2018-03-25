@@ -1,7 +1,8 @@
 #ifndef ENV_DENG2016SCR_HPP
 #define ENV_DENG2016SCR_HPP
 
-#include <nlohmann/json.hpp>
+#include "odeint_types.hpp"
+#include "json_types.hpp"
 
 class EnvScr {
 public:
@@ -23,6 +24,6 @@ public:
     double Vt(double r, double xJ, double xL, double xS); // Tensor interaction
 };
 
-void from_json(const nlohmann::json& j, EnvScr& p);
+void from_json(const json& j, EnvScr& p);
 
 #endif

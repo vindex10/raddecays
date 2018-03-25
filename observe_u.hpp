@@ -1,8 +1,8 @@
 #ifndef OBSERVE_U_HPP
 #define OBSERVE_U_HPP
 
-#include <nlohmann/json.hpp>
-#include "types.hpp"
+#include "json_types.hpp"
+#include "odeint_types.hpp"
 
 template <typename Eq, typename Observer>
 class ObserveU {
@@ -19,7 +19,7 @@ public:
 };
 
 template <typename Eq, typename Observer>
-void from_json(const nlohmann::json &j, ObserveU<Eq, Observer>& p);
+void from_json(const json &j, ObserveU<Eq, Observer>& p);
 
 #include "observe_u.tpp"
 

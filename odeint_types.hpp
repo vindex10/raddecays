@@ -1,5 +1,5 @@
-#ifndef TYPES_HPP
-#define TYPES_HPP
+#ifndef ODEINT_TYPES_HPP
+#define ODEINT_TYPES_HPP
 
 #include <complex>
 #include <cmath>

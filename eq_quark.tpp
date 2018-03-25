@@ -1,14 +1,14 @@
 #include <cmath>
-#include <nlohmann/json.hpp>
 #include <iostream>
-#include "types.hpp"
+#include "odeint_types.hpp"
+#include "json_types.hpp"
 
 template <typename Env>
 void EqQuark<Env>::operator() (const fldarr &u, fldder &dudr, const double r) {
     double ruse = r < env.rC ? env.rC : r;
-    dudr = -2.*env.muR*(E - env.Vv(ruse) - env.Vs(ruse)
-            - (xL*xL - 1.)/4./2./env.muR/r/r
-            - env.Vss(ruse, xS, xS1, xS2)
+    dudr = -2.*env.muR*(E - env.Vv(r) - env.Vs(r)
+            - (xL > 1.2 ? (xL*xL - 1.)/4./2./env.muR/r/r : 0.)
+            - env.Vss(r, xS, xS1, xS2)
             - env.Vsl(ruse, xJ, xL, xS)
             - env.Vt(ruse, xJ, xL, xS)
             );
@@ -54,60 +54,60 @@ void EqQuark<Env>::initTu (cnt &Tu, double h) {
 }
 
 template <typename Env>
-void from_json(const nlohmann::json &j, EqQuark<Env>& p) {
+void from_json(const json &j, EqQuark<Env>& p) {
     try {
         p.xJ = j.at("xJ").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.xL = j.at("xL").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.xS = j.at("xS").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.xS1 = j.at("xS1").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.xS2 = j.at("xS2").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.E = j.at("E").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.env = j.at("env");
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 

@@ -1,8 +1,8 @@
 #ifndef EQ_COUL_HPP
 #define EQ_COUL_HPP
 
-#include <nlohmann/json.hpp>
-#include "types.hpp"
+#include "odeint_types.hpp"
+#include "json_types.hpp"
 
 template <class Env>
 class EqCoul {
@@ -17,7 +17,7 @@ public:
 };
 
 template <typename Env>
-void from_json(const nlohmann::json &j, EqCoul<Env>& p);
+void from_json(const json &j, EqCoul<Env>& p);
 
 #include "eq_coul.tpp"
 

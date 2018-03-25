@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "types.hpp"
+#include "odeint_types.hpp"
 #include "env_deng2016scr.hpp"
 #include "eq_quark.hpp"
 
@@ -34,13 +34,13 @@ int main() {
     x[0] = 1;
     x[1] = 0;
 
-    fldarr answ;
+    fldder answ;
 
     fout << "r" << "," << "V"  << endl;
     double step = (maxr - minr)/numpoints;
     for (int i=0; i<numpoints; ++i) {
         eq(x, answ, r);
-        fout << r << "," << answ[1] << endl;
+        fout << r << "," << answ << endl;
         r += step;
     }
 

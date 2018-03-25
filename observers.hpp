@@ -2,7 +2,7 @@
 #define OBSERVERS_HPP
 
 #include <fstream>
-#include "types.hpp"
+#include "odeint_types.hpp"
 
 class uObserverToFile {
     public:

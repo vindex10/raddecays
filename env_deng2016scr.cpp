@@ -1,8 +1,8 @@
 #include <cmath>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <gsl/gsl_sf_coupling.h>
 #include "env_deng2016scr.hpp"
+#include "json_types.hpp"
 
 double EnvScr::smearedDelta (double r) {
     return std::pow(sigma/std::sqrt(M_PI), 3)*std::exp(-sigma*sigma*r*r);
@@ -29,11 +29,19 @@ double EnvScr::dVs(double r) {
 }
 
 double EnvScr::Vss(double r, double xS, double xS1, double xS2) {
-    return 32.*M_PI*alphaS/9./mC/mC*smearedDelta(r)*((xS*xS-1.) - (xS1*xS1-1.) - (xS2*xS2-1.))/8.;
+    if (xS1 < 1.2 || xS2 < 1.2) {
+        return 0.;
+    } else {
+        return 32.*M_PI*alphaS/9./mC/mC*smearedDelta(r)*((xS*xS-1.) - (xS1*xS1-1.) - (xS2*xS2-1.))/8.;
+    }
 }
 
 double EnvScr::Vsl(double r, double xJ, double xL, double xS)  {
-    return 1./2./mC/mC*(3.*dVv(r) - dVs(r))/r*((xJ*xJ-1.) - (xL*xL-1.) - (xS*xS - 1.))/8.;
+    if (xL < 1.2 || xS < 1.2) {
+        return 0;
+    } else {
+        return 1./2./mC/mC*(3.*dVv(r) - dVs(r))/r*((xJ*xJ-1.) - (xL*xL-1.) - (xS*xS - 1.))/8.;
+    }
 }
 
 double EnvScr::St(double xJ, double xL, double xS) {
@@ -41,63 +49,67 @@ double EnvScr::St(double xJ, double xL, double xS) {
 }
 
 double EnvScr::Vt(double r, double xJ, double xL, double xS) {
-    return 1./12./mC/mC*(1./r*dVv(r) - ddVv(r))*St(xJ, xL, xS);
+    if (xL < 1.2 || xS < 1.2) {
+        return 0.;
+    } else {
+        return 1./12./mC/mC*(1./r*dVv(r) - ddVv(r))*St(xJ, xL, xS);
+    }
 }
 
-void from_json(const nlohmann::json& j, EnvScr& p) {
+void from_json(const json& j, EnvScr& p) {
     try {
         p.alphaS = j.at("alphaS").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
     
     try {
         p.b = j.at("b").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
     
     try {
         p.mu = j.at("mu").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
     
     try {
         p.mC = j.at("mC").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
     
     try {
         p.muR = p.mC/2.;
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
     
     try {
         p.sigma = j.at("sigma").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 
     try {
         p.rC = j.at("rC").get<double>();
-    } catch(nlohmann::json::type_error& e) {
+    } catch(json::type_error& e) {
         std::cerr << e.what() << std::endl;
-    } catch(nlohmann::json::out_of_range& e) {
+    } catch(json::out_of_range& e) {
         std::cerr << e.what() << std::endl;
     }
 }

@@ -89,13 +89,7 @@ void from_json(const json& j, EnvScr& p) {
         std::cerr << e.what() << std::endl;
     }
     
-    try {
-        p.muR = p.mC/2.;
-    } catch(json::type_error& e) {
-        std::cerr << e.what() << std::endl;
-    } catch(json::out_of_range& e) {
-        std::cerr << e.what() << std::endl;
-    }
+    p.muR = p.mC/2.;
     
     try {
         p.sigma = j.at("sigma").get<double>();

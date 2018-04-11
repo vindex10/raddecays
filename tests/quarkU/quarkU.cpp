@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
         ofstream fout(outF.c_str());
         observu.obs.fout = &fout;
 
-        fout.precision(14);
+        fout << fixed << setprecision(20);
         fout << "r" << "," << "u" << endl;
         observu();
         fout.close();

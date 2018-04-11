@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     string title = prefix+"."+cfgname;
     cout << "cfg loaded: " << cfgname << endl;
     fs::create_directories(("output/"+title).c_str());
-    fs::copy_file(argv[1], ("output/"+title+"/"+cfgname+".old.cfg").c_str(), fs::copy_option::overwrite_if_exists);
+    fs::copy_file(argv[1], ("output/"+title+"/config").c_str(), fs::copy_option::overwrite_if_exists);
 
     fstream exclF(("output/"+title+"/exclude").c_str(), fstream::in|fstream::out|fstream::app);
     set<string> toExclude;

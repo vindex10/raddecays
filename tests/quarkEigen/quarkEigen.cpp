@@ -63,6 +63,9 @@ int main(int argc, char* argv[]) {
         vector<double> cutscales = p["cutscales"].get<vector<double> >();
         double minE = p["eq"]["E"].get<double>()-evals.ewindow;
         double maxE = p["eq"]["E"].get<double>()+evals.ewindow;
+        double shrink = p["shrink"].get<double>();
+        double curE = p["eq"]["E"].get<double>();
+        double curWindow = config[particle.key()]["ewindow"].get<double>();
         int steps = p["steps"].get<int>();
         double step =  (maxE - minE)/steps;
         double fval=0;
@@ -70,21 +73,24 @@ int main(int argc, char* argv[]) {
         ofstream minEf((outdir+"/minE.dat").c_str());
         cout.precision(p["outprec"].get<int>());
         minEf.precision(p["outprec"].get<int>());
-        cout << particle.key() << "(" << p["eq"]["E"] << ")" << endl;
+        cout << particle.key() << "(" << curE << ")" << endl;
         double maxVal = DBL_MIN;
         for (double cutscale: cutscales) {
             ofstream fout((outdir+"/asymp-"+boost::str(boost::format("%g")%cutscale)+".dat").c_str());
+            fout.precision(p["outprec"].get<int>());
             evals.cutscale = cutscale;
             evals.eq.E = minE;
             for (int i = 0; i<steps; i++) {
                 double val = evals.f();
-               fout << evals.eq.E << "," << val << endl;
-               maxVal = val > maxVal ? val : maxVal;
-               evals.eq.E += step;
+                fout << evals.eq.E << "," << val << endl;
+                if (evals.eq.E > curE-shrink*curWindow && evals.eq.E < curE+shrink*curWindow) {
+                    maxVal = val > maxVal ? val : maxVal;
+                }
+                evals.eq.E += step;
             }
             fout.close();
             
-            evals.eq.E = p["eq"]["E"].get<double>();
+            evals.eq.E = curE;
             if (argc == 2) {
                 fval = evals.findmin();
             }
@@ -92,6 +98,8 @@ int main(int argc, char* argv[]) {
             cout << cutscale << "," << evals.eq.E << "," << fval << endl;
         }
         config[particle.key()]["etol"] = pow(10, log10(maxVal) - p["damping"].get<double>());
+        config[particle.key()]["ewindow"] = curWindow*shrink;
+        config[particle.key()]["eq"]["E"] = evals.eq.E;
         exclF << particle.key() << endl;
         minEf.close();
     }

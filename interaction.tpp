@@ -181,7 +181,7 @@ double Interaction<Eq>::widthMxJ(double xJ) {
 
 template <class Eq>
 double Interaction<Eq>::widthMxJHel(double xJ, double xH) {
-    return (widthMxJ(xJ, -1., -2.-xH) + widthMxJ(xJ, 3., 6.-xH) + ( std::lround(xH) != 1 ? widthMxJ(xJ, -1., -2.-(2.-xH)) + widthMxJ(xJ, 3., 6.-(2.-xH)) : 0.))/instate.eq.xJ;
+    return (widthMxJ(xJ, -1., xH) + widthMxJ(xJ, 3., xH))/instate.eq.xJ;
 }
 
 template <class Eq>
@@ -347,7 +347,7 @@ double Interaction<Eq>::widthELW() {
 
 template <class Eq>
 double Interaction<Eq>::widthExJHel(double xJ, double xH) {
-    return (widthExJ(xJ, -1., -2.-xH) + widthExJ(xJ, 3., 6.-xH) + ( std::lround(xH) != 1 ? widthExJ(xJ, -1., -2.-(2.-xH)) + widthExJ(xJ, 3., 6.-(2.-xH)) : 0.))/instate.eq.xJ;
+    return (widthExJ(xJ, -1., xH) + widthExJ(xJ, 3., xH))/instate.eq.xJ;
 }
 
 template <class Eq>
@@ -385,7 +385,7 @@ double Interaction<Eq>::width(double xJ) {
 
 template <class Eq>
 double Interaction<Eq>::widthHel(double xJ, double xH) {
-    return (width(xJ, -1., -2.-xH) + width(xJ, 3., 6.-xH) + ( std::lround(xH) != 1 ? width(xJ, -1., -2.-(2.-xH)) + width(xJ, 3., 6.-(2.-xH)) : 0.))/instate.eq.xJ;
+    return (width(xJ, -1., xH) + width(xJ, 3., xH))/instate.eq.xJ;
 }
 
 template <class Eq>

@@ -7,3 +7,15 @@
 [submodule "fifo_map"]
 	path = fifo_map
 	url = https://github.com/nlohmann/fifo_map.git
+[submodule "extsrc/nlopt"]
+	path = extsrc/nlopt
+	url = https://github.com/stevengj/nlopt.git
+[submodule "extsrc/fifo_map"]
+	path = extsrc/fifo_map
+	url = https://github.com/nlohmann/fifo_map.git
+[submodule "extsrc/cubature"]
+	path = extsrc/cubature
+	url = https://github.com/stevengj/cubature.git
+[submodule "extsrc/json"]
+	path = extsrc/json
+	url = https://github.com/nlohmann/json.git

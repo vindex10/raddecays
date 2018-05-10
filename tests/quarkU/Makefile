@@ -1,17 +1,10 @@
+include ../../MakeVars
+include $(SRC)/Makefile
+
 NAME:=quarkU
 
-SRC:=../..
-FLAGS:=-std=c++14 -O3 # put -O3 here when ready
-
-INCLUDE_PATH:=-I/usr/include/eigen3 -I$(SRC) -I$(SRC)/json/single_include -I$(SRC)/fifo_map/src
-LIBS:=-L$(HOME)/work/build/lib -lm -lgsl -lboost_filesystem -lboost_system
-
-CC:=g++ -c $(FLAGS) $(INCLUDE_PATH)
-LINK:=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)
-
-SRCMAKE:=make -C $(SRC)
-DEPS:=env_deng2016lin.o env_deng2016scr.o observers.o
-DEPS:=$(addprefix $(SRC)/,$(DEPS))
+LIBS:=-lm -lgsl -lgslcblas -lboost_filesystem -lboost_system
+LINK:=$(LINK) $(LIBS)
 
 STATES=$(basename $(notdir $(wildcard states/*)))
 
@@ -30,17 +23,12 @@ $(filter %-scr, $(STATES)): $(NAME)Scr.exe
 prepare:
 	make -C ../quarkEigen/ generate
 
-$(NAME)Lin.exe:$(NAME).cpp $(addprefix $(SRC)/, env_deng2016lin.o observers.o)
-	$(SRCMAKE) $(filter %.o, $(patsubst $(SRC)/%,%,$^))
-	$(LINK) -include $(NAME)Lin.hpp $(SRC)/env_deng2016lin.o $(SRC)/observers.o -o $(NAME)Lin.exe $(NAME).cpp
+$(NAME)Lin.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016lin.o observers.o)
+	$(LINK) -include $(NAME)Lin.hpp $(BUILD)/env_deng2016lin.o $(BUILD)/observers.o -o $@ $(NAME).cpp
 
-$(NAME)Scr.exe:$(NAME).cpp $(SRC)/env_deng2016scr.o $(SRC)/observers.o
-	$(SRCMAKE) $(filter %.o, $(patsubst $(SRC)/%,%,$^))
-	$(LINK) -include $(NAME)Scr.hpp $(SRC)/env_deng2016scr.o $(SRC)/observers.o -o $(NAME)Scr.exe $(NAME).cpp
+$(NAME)Scr.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o observers.o)
+	$(LINK) -include $(NAME)Scr.hpp $(BUILD)/env_deng2016scr.o $(BUILD)/observers.o -o $@ $(NAME).cpp
 
-$(DEPS):
-	$(SRCMAKE) $(patsubst $(SRC)/%,%,$<)
-	
 clean:
-	rm -rf ./output/
-	rm -f $(NAME){Lin,Scr}.exe
+	$(RM) ./output/
+	$(RM) $(NAME){Lin,Scr}.exe

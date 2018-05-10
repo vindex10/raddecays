@@ -66,6 +66,7 @@ public:
     double widthELW(double xlam, double xji);
     double widthELW(double xlam);
     double widthELW();
+    double widthELWHel(double xH);
 
     double width(double xJ, double xlam, double xjf, double xji);
     double width(double xJ, double xlam, double xji);

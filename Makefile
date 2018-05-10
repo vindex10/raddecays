@@ -1,28 +1,15 @@
-FLAGS:=-std=c++14 -O3 # put -O3 here when ready
+$(BUILD)/utils.o: $(addprefix $(SRC)/,utils.hpp utils.cpp)
+	$(CC) -o $@ $(SRC)/utils.cpp
 
-INCLUDE_PATH:=-I/usr/include/eigen3 -I./json/single_include -I./fifo_map/src
-LIBS:=-lm -lgsl -lboost_filesystem -lboost_system
+$(BUILD)/env_deng2016lin.o: $(addprefix $(SRC)/,env_deng2016lin.cpp env_deng2016lin.hpp)
+	$(CC) -o $@ $(SRC)/env_deng2016lin.cpp
 
-CC:=g++ -c $(FLAGS) $(INCLUDE_PATH)
-LINK:=g++ $(FLAGS) $(INCLUDE_PATH) $(LIBS)
+$(BUILD)/env_deng2016scr.o: $(addprefix $(SRC)/,env_deng2016scr.cpp env_deng2016scr.hpp)
+	$(CC) -o $@ $(SRC)/env_deng2016scr.cpp
 
-.PHONY: all clean
+$(BUILD)/observers.o: $(addprefix $(SRC)/,observers.cpp observers.hpp)
+	$(CC) -o $@ $(SRC)/observers.cpp
 
-utils.o: utils.hpp utils.cpp 
-	$(CC) -o utils.o utils.cpp
+$(BUILD)/hcubature.o:
+	make -C $(SRC)/extsrc/ $@
 
-env_deng2016lin.o: env_deng2016lin.cpp env_deng2016lin.hpp
-	$(CC) -o env_deng2016lin.o env_deng2016lin.cpp
-
-env_deng2016scr.o: env_deng2016scr.cpp env_deng2016scr.hpp
-	$(CC) -o env_deng2016scr.o env_deng2016scr.cpp
-
-observers.o: observers.cpp observers.hpp
-	$(CC) -o observers.o observers.cpp
-
-cubature/hcubature.o: cubature/cubature.h cubature/hcubature.c
-	$(CC) -o cubature/hcubature.o cubature/hcubature.c
-
-clean:
-	rm -f *.o
-	rm -f cubature/hcubature.o

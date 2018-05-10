@@ -103,12 +103,21 @@ int main(int argc, char* argv[]) {
         }
         cout << endl;
 
+        cout << endl;
+        cout << "ELW h=0 " << inter.widthELWHel(1.)  << "," << inter.widthELWHel(1.)/inter.widthELW() << endl;
+        cout << endl;
         cout << "E1 h=0 " << inter.widthExJHel(3., 1.)  << "," << inter.widthExJHel(3., 1.)/inter.widthExJ(3.) << endl;
         cout << "tot1 h=0 " << inter.widthHel(3., 1.)  << "," << inter.widthHel(3., 1.)/inter.width(3.) << endl;
+        cout << endl;
         cout << "E5 h=0 " << inter.widthExJHel(11., 1.)  << "," << inter.widthExJHel(11., 1.)/inter.widthExJ(11.) << endl;
         cout << "tot5 h=0 " << inter.widthHel(11., 1.)  << "," << inter.widthHel(11., 1.)/inter.width(11.) << endl;
+        cout << endl;
+        cout << endl;
+        cout << "ELW h=2 " << inter.widthELWHel(5.)  << "," << inter.widthELWHel(5.)/inter.widthELW() << endl;
+        cout << endl;
         cout << "E1 h=2 " << inter.widthExJHel(3., 5.)  << "," << inter.widthExJHel(3., 5.)/inter.widthExJ(3.) << endl;
         cout << "tot1 h=2 " << inter.widthHel(3., 5.)  << "," << inter.widthHel(3., 5.)/inter.width(3.) << endl;
+        cout << endl;
         cout << "E5 h=2 " << inter.widthExJHel(11., 5.)  << "," << inter.widthExJHel(11., 5.)/inter.widthExJ(11.) << endl;
         cout << "tot5 h=2 " << inter.widthHel(11., 5.)  << "," << inter.widthHel(11., 5.)/inter.width(11.) << endl;
 

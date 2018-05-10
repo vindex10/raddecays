@@ -316,6 +316,11 @@ double Interaction<Eq>::widthExJ(double xJ) {
 }
 
 template <class Eq>
+double Interaction<Eq>::widthExJHel(double xJ, double xH) {
+    return (widthExJ(xJ, -1., xH) + widthExJ(xJ, 3., xH))/instate.eq.xJ;
+}
+
+template <class Eq>
 double Interaction<Eq>::widthELW(double xlam, double xjf, double xji) {
     std::complex<double> mel = 0.;
     mel = melELW(xlam, xjf, xji);
@@ -346,8 +351,8 @@ double Interaction<Eq>::widthELW() {
 }
 
 template <class Eq>
-double Interaction<Eq>::widthExJHel(double xJ, double xH) {
-    return (widthExJ(xJ, -1., xH) + widthExJ(xJ, 3., xH))/instate.eq.xJ;
+double Interaction<Eq>::widthELWHel(double xH) {
+    return (widthELW(-1., xH) + widthELW(3., xH))/instate.eq.xJ;
 }
 
 template <class Eq>

@@ -1,8 +1,6 @@
 .ipynb_checkpoints
 /build
 /tests/*/output
-/tests/*/export
-!.gitkeep
 *.exe
 *.o
 *.dat

@@ -6,10 +6,12 @@ ipython.magic("matplotlib inline")
 import pandas as pd
 import numpy as np
 import scipy as sp
+from scipy import integrate, special, interpolate
 import json
 import os
 from collections import OrderedDict
 from cycler import cycler
+from IPython.display import display
 import matplotlib.pyplot as plt
 
 SMALL_SIZE = 14
@@ -23,6 +25,9 @@ plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE, figsize=(12, 8))  # fontsize of the figure title
+
+pd.set_option('precision', 10)
+pd.options.display.float_format = "{:.3g}".format
 
 def code2name(code):
     parts = code.split("_")

@@ -1,3 +1,5 @@
+all: all_$(NAME)
+
 $(BUILD)/utils.o: $(addprefix $(SRC)/,utils.hpp utils.cpp)
 	$(CC) -o $@ $(SRC)/utils.cpp
 

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 #include <cmath>
 #include <boost/filesystem.hpp>
 #include "json_types.hpp"
@@ -48,13 +49,61 @@ int main(int argc, char* argv[]) {
     json eigenP = gain_config(("../quarkEigen/output/"+prefix+"."+system+"/config").c_str(), (outdir+"/eigen_config").c_str());
     json uP = gain_config(("../quarkU/output/"+prefix+"."+system+"/config").c_str(), (outdir+"/u_config").c_str());
 
-    string reportPath = outdir+"/data";
+    fstream exclF(("output/"+title+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
+    set<string> toExclude;
+    exclF.seekg(0);
+    string buf;
+    cout <<endl;
+    cout << "Exclusions:" << endl;
+    while (exclF >> buf) {
+        toExclude.insert(buf);
+        cout << buf << endl;
+    }
+    cout << endl;
+    exclF.clear();
+    exclF.seekp(0, ios_base::end);
+
+
+    string reportPath;
+
+    reportPath = outdir+"/widths";
     touchCSV(reportPath.c_str()
-            , "instate,outstate,width,R_width,widthE1,R_widthE1,widthELW,R_widthELW");
+            , "instate,outstate,width,width0,width2");
     ofstream report(reportPath.c_str(), ios_base::app);
     report << fixed << setprecision(16);
 
+    reportPath = outdir+"/widthsE1";
+    touchCSV(reportPath.c_str()
+            , "instate,outstate,width,width0,width2");
+    ofstream reportE1(reportPath.c_str(), ios_base::app);
+    
+    reportPath = outdir+"/widthsELW";
+    touchCSV(reportPath.c_str()
+            , "instate,outstate,width,width0,width2");
+    ofstream reportELW(reportPath.c_str(), ios_base::app);
+    report << fixed << setprecision(16);
+    
+    reportPath = outdir+"/melsq";
+    touchCSV(reportPath.c_str()
+            , "instate,outstate,melsq,melsqE1,melsqELW");
+    ofstream reportTech(reportPath.c_str(), ios_base::app);
+    report << fixed << setprecision(16);
+
     for (json::iterator trans = cfgP["specs"].begin(); trans != cfgP["specs"].end(); ++trans) {
+        json params = trans.value();
+        string instateName = params["instate"].get<string>();
+        string outstateName = params["outstate"].get<string>();
+        string transLabel = instateName+"->"+outstateName;
+
+        if (toExclude.find(transLabel) != toExclude.end()) {
+            cout << "* excluding " << transLabel << endl;
+            continue;
+        }
+
+        cout << " -------------------------------- " << endl;
+        cout << transLabel << endl;
+        cout << " -------------------------------- " << endl;
+
 #if defined(ENV_DENG2016LIN_HPP)
         Interaction<EqQuark<EnvLin> > inter;
 #elif defined(ENV_DENG2016SCR_HPP)
@@ -62,19 +111,12 @@ int main(int argc, char* argv[]) {
 #endif
 
         inter.alphaEM = cfgP["alphaEM"].get<double>();
-        json params = trans.value();
 
         string datapath = "../quarkU/output/"+prefix+"."+system+"/data/";
         vector<json*> configs{&eigenP, &uP};
-        string instateName = params["instate"].get<string>();
-        string outstateName = params["outstate"].get<string>();
 
         init_state(inter.instate, instateName, datapath, configs);
         init_state(inter.outstate, outstateName, datapath, configs);
-
-        cout << " -------------------------------- " << endl;
-        cout << instateName << " -> " << outstateName << endl;
-        cout << " -------------------------------- " << endl;
 
         double prev, cur;
 
@@ -103,38 +145,61 @@ int main(int argc, char* argv[]) {
         }
         cout << endl;
 
-        cout << endl;
-        cout << "ELW h=0 " << inter.widthELWHel(1.)  << "," << inter.widthELWHel(1.)/inter.widthELW() << endl;
-        cout << endl;
-        cout << "E1 h=0 " << inter.widthExJHel(3., 1.)  << "," << inter.widthExJHel(3., 1.)/inter.widthExJ(3.) << endl;
-        cout << "tot1 h=0 " << inter.widthHel(3., 1.)  << "," << inter.widthHel(3., 1.)/inter.width(3.) << endl;
-        cout << endl;
-        cout << "E5 h=0 " << inter.widthExJHel(11., 1.)  << "," << inter.widthExJHel(11., 1.)/inter.widthExJ(11.) << endl;
-        cout << "tot5 h=0 " << inter.widthHel(11., 1.)  << "," << inter.widthHel(11., 1.)/inter.width(11.) << endl;
-        cout << endl;
-        cout << endl;
-        cout << "ELW h=2 " << inter.widthELWHel(5.)  << "," << inter.widthELWHel(5.)/inter.widthELW() << endl;
-        cout << endl;
-        cout << "E1 h=2 " << inter.widthExJHel(3., 5.)  << "," << inter.widthExJHel(3., 5.)/inter.widthExJ(3.) << endl;
-        cout << "tot1 h=2 " << inter.widthHel(3., 5.)  << "," << inter.widthHel(3., 5.)/inter.width(3.) << endl;
-        cout << endl;
-        cout << "E5 h=2 " << inter.widthExJHel(11., 5.)  << "," << inter.widthExJHel(11., 5.)/inter.widthExJ(11.) << endl;
-        cout << "tot5 h=2 " << inter.widthHel(11., 5.)  << "," << inter.widthHel(11., 5.)/inter.width(11.) << endl;
+        //cout << endl;
+        //cout << "ELW h=0 " << inter.widthELWHel(1.)  << "," << inter.widthELWHel(1.)/inter.widthELW() << endl;
+        //cout << endl;
+        //cout << "E1 h=0 " << inter.widthExJHel(3., 1.)  << "," << inter.widthExJHel(3., 1.)/inter.widthExJ(3.) << endl;
+        //cout << "tot1 h=0 " << inter.widthHel(3., 1.)  << "," << inter.widthHel(3., 1.)/inter.width(3.) << endl;
+        //cout << endl;
+        //cout << "E5 h=0 " << inter.widthExJHel(11., 1.)  << "," << inter.widthExJHel(11., 1.)/inter.widthExJ(11.) << endl;
+        //cout << "tot5 h=0 " << inter.widthHel(11., 1.)  << "," << inter.widthHel(11., 1.)/inter.width(11.) << endl;
+        //cout << endl;
+        //cout << endl;
+        //cout << "ELW h=2 " << inter.widthELWHel(5.)  << "," << inter.widthELWHel(5.)/inter.widthELW() << endl;
+        //cout << endl;
+        //cout << "E1 h=2 " << inter.widthExJHel(3., 5.)  << "," << inter.widthExJHel(3., 5.)/inter.widthExJ(3.) << endl;
+        //cout << "tot1 h=2 " << inter.widthHel(3., 5.)  << "," << inter.widthHel(3., 5.)/inter.width(3.) << endl;
+        //cout << endl;
+        //cout << "E5 h=2 " << inter.widthExJHel(11., 5.)  << "," << inter.widthExJHel(11., 5.)/inter.widthExJ(11.) << endl;
+        //cout << "tot5 h=2 " << inter.widthHel(11., 5.)  << "," << inter.widthHel(11., 5.)/inter.width(11.) << endl;
 
-        cout <<endl;
+        //cout <<endl;
 
         report      << instateName
              << "," << outstateName
-             << "," << inter.width(11.)
-             << "," << inter.reduceWidth(inter.width(11.))
+             << "," << inter.width(17.)
+             << "," << inter.widthHel(17.,1.)
+             << "," << inter.widthHel(17.,5.)
+             << endl;
+
+        reportE1    << instateName
+             << "," << outstateName
              << "," << inter.widthExJ(3.)
-             << "," << inter.reduceWidth(inter.widthExJ(3.))
+             << "," << inter.widthExJHel(3., 1.)
+             << "," << inter.widthExJHel(3., 5.)
+             << endl;
+
+        reportELW   << instateName
+             << "," << outstateName
              << "," << inter.widthELW()
+             << "," << inter.widthELWHel(1.)
+             << "," << inter.widthELWHel(5.)
+             << endl;
+
+        reportTech  << instateName
+             << "," << outstateName
+             << "," << inter.reduceWidth(inter.width(17.))
+             << "," << inter.reduceWidth(inter.widthExJ(3.))
              << "," << inter.reduceWidth(inter.widthELW())
              << endl;
 
+
+        exclF << transLabel << endl;
     }
     report.close();
+    reportE1.close();
+    reportELW.close();
+    reportTech.close();
 
 
     return 0;

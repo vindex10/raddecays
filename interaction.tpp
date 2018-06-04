@@ -12,8 +12,8 @@ using namespace std;
 template <class Eq>
 double Interaction<Eq>::widthMel(std::complex<double> mel) {
     double Mf = 2*outstate.eq.env.mC + outstate.eq.E;
-    double k = -Mf + std::sqrt(Mf*Mf + 2*Mf*(instate.eq.E - outstate.eq.E));
-    return 2.*alphaEM*k*Mf/(k+Mf)*std::norm(mel);
+    double Mi = 2*instate.eq.env.mC + instate.eq.E;
+    return alphaEM/2.*(Mi*Mi*Mi*Mi - Mf*Mf*Mf*Mf)/(Mi*Mi*Mi)*std::norm(mel);
 }
 
 template <class Eq>
@@ -181,7 +181,7 @@ double Interaction<Eq>::widthMxJ(double xJ) {
 
 template <class Eq>
 double Interaction<Eq>::widthMxJHel(double xJ, double xH) {
-    return (widthMxJ(xJ, -1., xH) + widthMxJ(xJ, 3., xH))/instate.eq.xJ;
+    return (widthMxJ(xJ, -1., xH) + widthMxJ(xJ, 3., xH) + (std::lround(xH) != 1 ? widthMxJ(xJ, -1., -xH+2.) + widthMxJ(xJ, 3., -xH+2.) : 0.))/instate.eq.xJ;
 }
 
 template <class Eq>
@@ -317,7 +317,7 @@ double Interaction<Eq>::widthExJ(double xJ) {
 
 template <class Eq>
 double Interaction<Eq>::widthExJHel(double xJ, double xH) {
-    return (widthExJ(xJ, -1., xH) + widthExJ(xJ, 3., xH))/instate.eq.xJ;
+    return (widthExJ(xJ, -1., xH) + widthExJ(xJ, 3., xH) + (std::lround(xH) != 1 ? widthExJ(xJ, -1., -xH+2.) + widthExJ(xJ, 3., -xH+2.) : 0.))/instate.eq.xJ;
 }
 
 template <class Eq>
@@ -352,7 +352,7 @@ double Interaction<Eq>::widthELW() {
 
 template <class Eq>
 double Interaction<Eq>::widthELWHel(double xH) {
-    return (widthELW(-1., xH) + widthELW(3., xH))/instate.eq.xJ;
+    return (widthELW(-1., xH) + widthELW(3., xH) + (std::lround(xH) != 1 ? widthELW(-1., -xH+2.) + widthELW(3., -xH+2.) : 0.))/instate.eq.xJ;
 }
 
 template <class Eq>
@@ -390,13 +390,13 @@ double Interaction<Eq>::width(double xJ) {
 
 template <class Eq>
 double Interaction<Eq>::widthHel(double xJ, double xH) {
-    return (width(xJ, -1., xH) + width(xJ, 3., xH))/instate.eq.xJ;
+    return (width(xJ, -1., xH) + width(xJ, 3., xH) + (std::lround(xH) != 1 ? width(xJ, -1., -xH+2.) + width(xJ, 3., -xH+2.) : 0.))/instate.eq.xJ;
 }
 
 template <class Eq>
 double  Interaction<Eq>::reduceWidth(double width) {
     double Mf = 2*outstate.eq.env.mC + outstate.eq.E;
-    double k = -Mf + std::sqrt(Mf*Mf + 2*Mf*(instate.eq.E - outstate.eq.E));
-    return width*(k+Mf)/k/Mf/(instate.eq.E - outstate.eq.E)/(instate.eq.E - outstate.eq.E);
+    double Mi = 2*instate.eq.env.mC + instate.eq.E;
+    return 1./(alphaEM/2.*(Mi*Mi*Mi*Mi - Mf*Mf*Mf*Mf)/(Mi*Mi*Mi)/width)/(Mi-Mf);
 }
 

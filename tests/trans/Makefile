@@ -1,7 +1,7 @@
+NAME:=trans
+
 include ../../MakeVars
 include $(SRC)/Makefile
-
-NAME:=trans
 
 LIBS:=-lm -lgsl -lgslcblas -lboost_filesystem -lboost_system
 LINK:=$(LINK) $(LIBS)
@@ -10,7 +10,7 @@ TRANSITIONS:=$(basename $(notdir $(wildcard transitions/*)))
 
 .PHONY: all prepare generate clean $(TRANSITIONS)
 
-all: $(NAME)Lin.exe $(NAME)Scr.exe
+all_$(NAME): $(NAME)Lin.exe $(NAME)Scr.exe
 
 generate: prepare $(TRANSITIONS)
 

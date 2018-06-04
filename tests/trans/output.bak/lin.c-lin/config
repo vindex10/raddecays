@@ -1,0 +1,166 @@
+{
+    "system": "c-lin",
+    "alphaEM": 0.003244,
+    "specs": [
+        {
+            "instate": "psi_1S",
+            "outstate": "eta_c_1S"
+        },
+        {
+            "instate": "psi_2S",
+            "outstate": "eta_c_2S"
+        },
+        {
+            "instate": "psi_2S",
+            "outstate": "eta_c_1S"
+        },
+        {
+            "instate": "eta_c_2S",
+            "outstate": "psi_1S"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "eta_c_3S"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "eta_c_2S"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "eta_c_1S"
+        },
+        {
+            "instate": "psi_2S",
+            "outstate": "chi_c2_1P"
+        },
+        {
+            "instate": "psi_2S",
+            "outstate": "chi_c1_1P"
+        },
+        {
+            "instate": "psi_2S",
+            "outstate": "chi_c0_1P"
+        },
+        {
+            "instate": "eta_c_2S",
+            "outstate": "h_c_1P"
+        },
+        {
+            "instate": "chi_c2_1P",
+            "outstate": "psi_1S"
+        },
+        {
+            "instate": "chi_c1_1P",
+            "outstate": "psi_1S"
+        },
+        {
+            "instate": "chi_c0_1P",
+            "outstate": "psi_1S"
+        },
+        {
+            "instate": "h_c_1P",
+            "outstate": "eta_c_1S"
+        },
+        {
+            "instate": "psi_1_1D",
+            "outstate": "chi_c2_1P"
+        },
+        {
+            "instate": "psi_1_1D",
+            "outstate": "chi_c1_1P"
+        },
+        {
+            "instate": "psi_1_1D",
+            "outstate": "chi_c0_1P"
+        },
+        {
+            "instate": "psi_2_1D",
+            "outstate": "chi_c2_1P"
+        },
+        {
+            "instate": "psi_2_1D",
+            "outstate": "chi_c1_1P"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "chi_c2_2P"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "chi_c1_2P"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "chi_c0_2P"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "chi_c2_1P"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "chi_c1_1P"
+        },
+        {
+            "instate": "psi_3S",
+            "outstate": "chi_c0_1P"
+        },
+        {
+            "instate": "eta_c_3S",
+            "outstate": "h_c_2P"
+        },
+        {
+            "instate": "eta_c_3S",
+            "outstate": "h_c_1P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c2_1P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c1_1P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c0_1P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c2_2P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c1_2P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c0_2P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c2_3P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c1_3P"
+        },
+        {
+            "instate": "psi_4S",
+            "outstate": "chi_c0_3P"
+        },
+        {
+            "instate": "eta_c_4S",
+            "outstate": "h_c_1P"
+        },
+        {
+            "instate": "eta_c_4S",
+            "outstate": "h_c_2P"
+        },
+        {
+            "instate": "eta_c_4S",
+            "outstate": "h_c_3P"
+        }
+    ]
+}

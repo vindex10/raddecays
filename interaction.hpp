@@ -51,28 +51,28 @@ public:
     double widthMel(std::complex<double> mel);
 
     double widthMxJ(double xJ, double xlam, double xjf, double xji);
-    double widthMxJ(double xJ, double xlam, double xji);
+    double widthMxJ(double xJ, double xlam, double xj, bool subthr=false);
     double widthMxJ(double xJ, double xlam);
     double widthMxJ(double xJ);
-    double widthMxJHel(double xJ, double xH);
+    double widthMxJHel(double xJ, double xH, bool subthr=false);
 
     double widthExJ(double xJ, double xlam, double xjf, double xji);
-    double widthExJ(double xJ, double xlam, double xji);
+    double widthExJ(double xJ, double xlam, double xj, bool subthr=false);
     double widthExJ(double xJ, double xlam);
     double widthExJ(double xJ);
-    double widthExJHel(double xJ, double xH);
+    double widthExJHel(double xJ, double xH, bool subthr=false);
 
     double widthELW(double xlam, double xjf, double xji);
-    double widthELW(double xlam, double xji);
+    double widthELW(double xlam, double xj, bool subthr=false);
     double widthELW(double xlam);
     double widthELW();
-    double widthELWHel(double xH);
+    double widthELWHel(double xH, bool subthr=false);
 
     double width(double xJ, double xlam, double xjf, double xji);
-    double width(double xJ, double xlam, double xji);
+    double width(double xJ, double xlam, double xj, bool subthr=false);
     double width(double xJ, double xlam);
     double width(double xJ);
-    double widthHel(double xJ, double xH);
+    double widthHel(double xJ, double xH, bool subthr=false);
 
     double reduceWidth(double width);
 };

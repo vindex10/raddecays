@@ -157,12 +157,20 @@ double Interaction<Eq>::widthMxJ(double xJ, double xlam, double xjf, double xji)
 }
 
 template <class Eq>
-double Interaction<Eq>::widthMxJ(double xJ, double xlam, double xji) {
+double Interaction<Eq>::widthMxJ(double xJ, double xlam, double xj, bool subthr) {
     double res = 0.;
-    for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
-        res += widthMxJ(xJ, xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xji);
+
+    if (!subthr) {
+        for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
+            res += widthMxJ(xJ, xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xj);
+        }
+        return res;
+    } else {
+        for (int ji_cnt = 0; ji_cnt < std::lround(instate.eq.xJ); ++ji_cnt) {
+            res += widthMxJ(xJ, xlam, xj, -instate.eq.xJ+2.+2.*(double)ji_cnt);
+        }
+        return res/instate.eq.xJ;
     }
-    return res;
 }
 
 template <class Eq>
@@ -180,8 +188,8 @@ double Interaction<Eq>::widthMxJ(double xJ) {
 }
 
 template <class Eq>
-double Interaction<Eq>::widthMxJHel(double xJ, double xH) {
-    return (widthMxJ(xJ, -1., xH) + widthMxJ(xJ, 3., xH) + (std::lround(xH) != 1 ? widthMxJ(xJ, -1., -xH+2.) + widthMxJ(xJ, 3., -xH+2.) : 0.))/instate.eq.xJ;
+double Interaction<Eq>::widthMxJHel(double xJ, double xH, bool subthr) {
+    return (widthMxJ(xJ, -1., xH, subthr) + widthMxJ(xJ, 3., xH, subthr) + (std::lround(xH) != 1 ? widthMxJ(xJ, -1., -xH+2., subthr) + widthMxJ(xJ, 3., -xH+2., subthr) : 0.))/(subthr ? 1. : instate.eq.xJ);
 }
 
 template <class Eq>
@@ -293,12 +301,20 @@ double Interaction<Eq>::widthExJ(double xJ, double xlam, double xjf, double xji)
 }
 
 template <class Eq>
-double Interaction<Eq>::widthExJ(double xJ, double xlam, double xji) {
+double Interaction<Eq>::widthExJ(double xJ, double xlam, double xj, bool subthr) {
     double res = 0.;
-    for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
-        res += widthExJ(xJ, xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xji);
+
+    if (!subthr) {
+        for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
+            res += widthExJ(xJ, xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xj);
+        }
+        return res;
+    } else {
+        for (int ji_cnt = 0; ji_cnt < std::lround(instate.eq.xJ); ++ji_cnt) {
+            res += widthExJ(xJ, xlam, xj, -instate.eq.xJ+2.+2.*(double)ji_cnt);
+        }
+        return res/instate.eq.xJ;
     }
-    return res;
 }
 
 template <class Eq>
@@ -316,8 +332,8 @@ double Interaction<Eq>::widthExJ(double xJ) {
 }
 
 template <class Eq>
-double Interaction<Eq>::widthExJHel(double xJ, double xH) {
-    return (widthExJ(xJ, -1., xH) + widthExJ(xJ, 3., xH) + (std::lround(xH) != 1 ? widthExJ(xJ, -1., -xH+2.) + widthExJ(xJ, 3., -xH+2.) : 0.))/instate.eq.xJ;
+double Interaction<Eq>::widthExJHel(double xJ, double xH, bool subthr) {
+    return (widthExJ(xJ, -1., xH, subthr) + widthExJ(xJ, 3., xH, subthr) + (std::lround(xH) != 1 ? widthExJ(xJ, -1., -xH+2., subthr) + widthExJ(xJ, 3., -xH+2., subthr) : 0.))/(subthr ? 1. : instate.eq.xJ);
 }
 
 template <class Eq>
@@ -328,12 +344,20 @@ double Interaction<Eq>::widthELW(double xlam, double xjf, double xji) {
 }
 
 template <class Eq>
-double Interaction<Eq>::widthELW(double xlam, double xji) {
+double Interaction<Eq>::widthELW(double xlam, double xj, bool subthr) {
     double res = 0.;
-    for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
-        res += widthELW(xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xji);
+
+    if (!subthr) {
+        for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
+            res += widthELW(xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xj);
+        }
+        return res;
+    } else {
+        for (int ji_cnt = 0; ji_cnt < std::lround(instate.eq.xJ); ++ji_cnt) {
+            res += widthELW(xlam, xj, -instate.eq.xJ+2.+2.*(double)ji_cnt);
+        }
+        return res/instate.eq.xJ;
     }
-    return res;
 }
 
 template <class Eq>
@@ -351,8 +375,8 @@ double Interaction<Eq>::widthELW() {
 }
 
 template <class Eq>
-double Interaction<Eq>::widthELWHel(double xH) {
-    return (widthELW(-1., xH) + widthELW(3., xH) + (std::lround(xH) != 1 ? widthELW(-1., -xH+2.) + widthELW(3., -xH+2.) : 0.))/instate.eq.xJ;
+double Interaction<Eq>::widthELWHel(double xH, bool subthr) {
+    return (widthELW(-1., xH, subthr) + widthELW(3., xH, subthr) + (std::lround(xH) != 1 ? widthELW(-1., -xH+2., subthr) + widthELW(3., -xH+2., subthr) : 0.))/(subthr ? 1. : instate.eq.xJ);
 }
 
 template <class Eq>
@@ -366,12 +390,21 @@ double Interaction<Eq>::width(double xJ, double xlam, double xjf, double xji) {
 }
 
 template <class Eq>
-double Interaction<Eq>::width(double xJ, double xlam, double xji) {
+double Interaction<Eq>::width(double xJ, double xlam, double xj, bool subthr) {
     double res = 0.;
-    for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
-        res += width(xJ, xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xji);
+
+    if (!subthr) {
+        for (int jf_cnt = 0; jf_cnt < std::lround(outstate.eq.xJ); ++jf_cnt) {
+            res += width(xJ, xlam, -outstate.eq.xJ+2.+2.*(double)jf_cnt, xj);
+        }
+        return res;
+    } else {
+        for (int ji_cnt = 0; ji_cnt < std::lround(instate.eq.xJ); ++ji_cnt) {
+            res += width(xJ, xlam, xj, -instate.eq.xJ+2.+2.*(double)ji_cnt);
+        }
+        return res/instate.eq.xJ;
     }
-    return res;
+
 }
 
 template <class Eq>
@@ -389,8 +422,8 @@ double Interaction<Eq>::width(double xJ) {
 }
 
 template <class Eq>
-double Interaction<Eq>::widthHel(double xJ, double xH) {
-    return (width(xJ, -1., xH) + width(xJ, 3., xH) + (std::lround(xH) != 1 ? width(xJ, -1., -xH+2.) + width(xJ, 3., -xH+2.) : 0.))/instate.eq.xJ;
+double Interaction<Eq>::widthHel(double xJ, double xH, bool subthr) {
+    return (width(xJ, -1., xH, subthr) + width(xJ, 3., xH, subthr) + (std::lround(xH) != 1 ? width(xJ, -1., -xH+2., subthr) + width(xJ, 3., -xH+2., subthr) : 0.))/(subthr ? 1. : instate.eq.xJ);
 }
 
 template <class Eq>

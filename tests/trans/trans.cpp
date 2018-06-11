@@ -68,18 +68,18 @@ int main(int argc, char* argv[]) {
 
     reportPath = outdir+"/widths";
     touchCSV(reportPath.c_str()
-            , "instate,outstate,width,width0,width2");
+            , "instate,outstate,width,in0,in2,out0,out2");
     ofstream report(reportPath.c_str(), ios_base::app);
     report << fixed << setprecision(16);
 
     reportPath = outdir+"/widthsE1";
     touchCSV(reportPath.c_str()
-            , "instate,outstate,width,width0,width2");
+            , "instate,outstate,width,in0,in2,out0,out2");
     ofstream reportE1(reportPath.c_str(), ios_base::app);
     
     reportPath = outdir+"/widthsELW";
     touchCSV(reportPath.c_str()
-            , "instate,outstate,width,width0,width2");
+            , "instate,outstate,width,in0,in2,out0,out2");
     ofstream reportELW(reportPath.c_str(), ios_base::app);
     report << fixed << setprecision(16);
     
@@ -170,6 +170,8 @@ int main(int argc, char* argv[]) {
              << "," << inter.width(17.)
              << "," << inter.widthHel(17.,1.)
              << "," << inter.widthHel(17.,5.)
+             << "," << inter.widthHel(17.,1., true)
+             << "," << inter.widthHel(17.,5., true)
              << endl;
 
         reportE1    << instateName
@@ -177,6 +179,8 @@ int main(int argc, char* argv[]) {
              << "," << inter.widthExJ(3.)
              << "," << inter.widthExJHel(3., 1.)
              << "," << inter.widthExJHel(3., 5.)
+             << "," << inter.widthExJHel(3., 1., true)
+             << "," << inter.widthExJHel(3., 5., true)
              << endl;
 
         reportELW   << instateName
@@ -184,6 +188,8 @@ int main(int argc, char* argv[]) {
              << "," << inter.widthELW()
              << "," << inter.widthELWHel(1.)
              << "," << inter.widthELWHel(5.)
+             << "," << inter.widthELWHel(1., true)
+             << "," << inter.widthELWHel(5., true)
              << endl;
 
         reportTech  << instateName

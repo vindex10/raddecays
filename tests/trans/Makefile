@@ -12,6 +12,9 @@ TRANSITIONS:=$(basename $(notdir $(wildcard transitions/*)))
 
 all_$(NAME): $(NAME)Lin.exe $(NAME)Scr.exe
 
+report: generate
+	jupyter nbconvert --exec $(NAME).ipynb --stdout > /dev/null
+
 generate: prepare $(TRANSITIONS)
 
 prepare:

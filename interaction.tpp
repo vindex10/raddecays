@@ -30,7 +30,7 @@ double Interaction<Eq>::coefQ(double xL, double xJ, double xlam, double xjf, dou
                clebsch(instate.eq.xL, xji-xs+1., instate.eq.xS, xs, instate.eq.xJ, xji)*
                clebsch(xJ, xlam, instate.eq.xL, xji-xs+1., outstate.eq.xL, xjf-xs+1.);
     }
-    res *= std::sqrt(instate.eq.xL*xL/outstate.eq.xL/4./M_PI)*clebsch(instate.eq.xL, 1., xJ, 1., outstate.eq.xL, 1.);
+    res *= std::sqrt(instate.eq.xL*xL/outstate.eq.xL/4./M_PI)*clebsch(xJ, 1., instate.eq.xL, 1., outstate.eq.xL, 1.);
     
     return res;
 }
@@ -38,6 +38,7 @@ double Interaction<Eq>::coefQ(double xL, double xJ, double xlam, double xjf, dou
 template <class Eq>
 double Interaction<Eq>::coefC(double xL, double xJ, double xlam, double xjf, double xji) {
     double res = 0;
+    double pref;
     double xm2, xsq, xsqbar;
     for (int m2_cnt = 3; m2_cnt >= -1; m2_cnt-=2)
         for(int sq_cnt = 2; sq_cnt >= 0; sq_cnt-=2)
@@ -46,15 +47,18 @@ double Interaction<Eq>::coefC(double xL, double xJ, double xlam, double xjf, dou
                 xsq = (double)sq_cnt;
                 xsqbar = (double)sqbar_cnt;
 
-                res += (xm2-1.)/2.*
+                pref = m2_cnt == 1 ? 2. : std::sqrt(2);
+                pref = m2_cnt == 1 ? pref : -pref;
+
+                res += pref*
                        clebsch(xL, xlam-xm2+1., 3., xm2, xJ, xlam)*
-                       clebsch(outstate.eq.xL, xjf-(xsq+xsqbar-1.)+1., outstate.eq.xS, xsq+xsqbar-1., outstate.eq.xJ, xjf)*
-                       clebsch(instate.eq.xL, xji-(xsq+xsqbar-xm2)+1., instate.eq.xS, xsq+xsqbar-xm2,instate.eq.xJ, xji)*
-                       clebsch(2., xsq, 2., xsqbar, outstate.eq.xS, xsq+xsqbar-1.)*
-                       clebsch(2., xsq, 2., xsqbar-xm2+1., instate.eq.xS, xsq+xsqbar-xm2)*
-                       clebsch(xL, xlam-xm2+1.,instate.eq.xL, xji-(xsq+xsqbar-xm2)+1., outstate.eq.xL, xjf-(xsqbar+xsq-1.)+1.);
+                       clebsch(outstate.eq.xL, xjf-(xsq+xsqbar+xm2-2.)+1., outstate.eq.xS, xsq+xsqbar+xm2-2., outstate.eq.xJ, xjf)*
+                       clebsch(instate.eq.xL, xji-(xsq+xsqbar-1.)+1., instate.eq.xS, xsq+xsqbar-1.,instate.eq.xJ, xji)*
+                       clebsch(2., xsq+xm2-1., 2., xsqbar, outstate.eq.xS, xsq+xsqbar+xm2-2.)*
+                       clebsch(2., xsq, 2., xsqbar, instate.eq.xS, xsq+xsqbar-1.)*
+                       clebsch(xL, xlam-xm2+1.,instate.eq.xL, xji-(xsq+xsqbar-1.)+1., outstate.eq.xL, xjf-(xsqbar+xsq+xm2-2.)+1.);
             }
-    res *= -std::sqrt(2.)*std::sqrt(instate.eq.xL*xL/4./M_PI/outstate.eq.xL)*clebsch(instate.eq.xL, 1., xL, 1., outstate.eq.xL, 1.);
+    res *= std::sqrt(instate.eq.xL/4./M_PI/outstate.eq.xL)*clebsch(1., xL, instate.eq.xL, 1., outstate.eq.xL, 1.);
     return res;
 }
 

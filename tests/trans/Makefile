@@ -34,4 +34,5 @@ $(NAME)Scr.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o hcubature.o 
 
 clean:
 	$(RM) ./output/
+	$(RM) ./export/*
 	$(RM) $(NAME){Lin,Scr}.exe

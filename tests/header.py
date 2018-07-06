@@ -114,3 +114,9 @@ def cmpMultyStatesByName(prefix, cfgcode, p1, p2):
 def dfsort(df, func):
     keys = sorted(df.index.values, key=cmp_to_key(func))
     return df.loc[keys]
+
+def cfgnameSplit(cfgname):
+    cfgcode = cfgname.split(".")
+    cfgtag = "" if len(cfgcode) == 1 else ".".join(cfgcode[:-1])
+    cfgcode = cfgcode[-1]
+    return cfgcode, cfgtag

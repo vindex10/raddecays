@@ -4,7 +4,6 @@ include $(SRC)/Makefile
 NAME:=quarkU
 
 LIBS:=-lm -lgsl -lgslcblas -lboost_filesystem -lboost_system
-LINK:=$(LINK) $(LIBS)
 
 STATES=$(basename $(notdir $(wildcard states/*)))
 
@@ -23,12 +22,17 @@ $(filter %-scr, $(STATES)): $(NAME)Scr.exe
 prepare:
 	make -C ../quarkEigen/ generate
 
-$(NAME)Lin.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016lin.o observers.o)
+$(NAME)Lin.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016lin.o observers.o) $$(DEPREQS)
+	$(PRECOMPILE)
 	$(LINK) -include $(NAME)Lin.hpp $(BUILD)/env_deng2016lin.o $(BUILD)/observers.o -o $@ $(NAME).cpp
+	$(POSTCOMPILE)
 
-$(NAME)Scr.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o observers.o)
+$(NAME)Scr.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o observers.o) $$(DEPREQS)
+	$(PRECOMPILE)
 	$(LINK) -include $(NAME)Scr.hpp $(BUILD)/env_deng2016scr.o $(BUILD)/observers.o -o $@ $(NAME).cpp
+	$(POSTCOMPILE)
 
 clean:
 	$(RM) ./output/
 	$(RM) $(NAME){Lin,Scr}.exe
+	$(RM) $(DEPDIRNAME)

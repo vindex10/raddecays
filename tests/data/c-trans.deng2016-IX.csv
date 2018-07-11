@@ -1,0 +1,31 @@
+# Deacy widths. Charmonium. E1-dominated transitions between D- states
+#
+# Columns:
+#
+# * RQM :: [KeV] M1 :: relativistic quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.67.014027]
+# * NR :: [KeV] E1 :: nonrelativistic constituent quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * GI :: [KeV] E1 :: relativized quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * SNR0 :: [KeV] E1 :: previous screened potential quark model (zero-order wf). [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * SNR1 :: [KeV] E1 :: previous screened potential quark model (first-order relativistically corrected wf). [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * LP_E1 :: [KeV] E1 :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP_E1 :: [KeV] E1 :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * LP :: [KeV] :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP :: [KeV] :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+#
+instate,outstate,RQM,NR,GI,SNR0,SNR1,LP_E1,SP_E1,LP,SP
+psi_3_1D,chi_c2_1P,156.0,272.0,296.0,284.0,223.0,377,393,350,364
+eta_c2_1D,h_c_1P,245.0,339.0,344.0,575.0,375.0,362,376,362,376
+psi_3_2D,chi_c2_1P,,29.0,16.0,,,83,78,72,67
+psi_3_2D,chi_c2_2P,,239.0,272.0,,,457,256,427,243
+psi_2_2D,chi_c2_1P,,7.1,0.62,,,16,16,20,20
+psi_2_2D,chi_c1_1P,,26.0,23.0,,,64,64,68,68
+psi_2_2D,chi_c2_2P,,52.0,65.0,,,101,57,115,64
+psi_2_2D,chi_c1_2P,,298.0,225.0,,,220,186,223,188
+psi_1_2D,chi_c2_1P,,0.79,0.027000000000000003,,,16,16,17,20
+psi_1_2D,chi_c1_1P,,14.0,3.4,,,25,42,37,63
+psi_1_2D,chi_c0_1P,,27.0,35.0,,,120,149,150,189
+psi_1_2D,chi_c2_2P,,5.9,6.3,,,18,21,24,29
+psi_1_2D,chi_c1_2P,,168.0,114.0,,,253,280,309,347
+psi_1_2D,chi_c0_2P,,483.0,191.0,,,299,321,332,360
+eta_c2_2D,h_c_1P,,40.0,25.0,,,96,92,96,92
+eta_c2_2D,h_{c}(2 P),,336.0,296.0,,,438,271,438,271

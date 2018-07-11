@@ -1,0 +1,55 @@
+# Deacy widths. Charmonium. E1-dominated transitions between 2P and 3P states
+#
+# Columns:
+#
+# * NR :: [KeV] E1 :: nonrelativistic constituent quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * GI :: [KeV] E1 :: relativized quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * SNR0 :: [KeV] E1 :: previous screened potential quark model (zero-order wf). [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * SNR1 :: [KeV] E1 :: previous screened potential quark model (first-order relativistically corrected wf). [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * LP_E1 :: [KeV] E1 :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP_E1 :: [KeV] E1 :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * LP :: [KeV] :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP :: [KeV] :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+#
+instate,outstate,NR,GI,SNR0,SNR1,LP_E1,SP_E1,LP,SP
+chi_c2_2P,psi_3_1D,88.0,29.0,,,20.0,24.0,20.0,24.0
+chi_c2_2P,psi_2_1D,17.0,5.6,,,3.3,4.1,3.2,4.0
+chi_c2_2P,psi_1_1D,1.9,1.0,,,0.47,0.62,0.36,0.46
+chi_c2_2P,psi_2S,304.0,207.0,225.0,100.0,146.0,163.0,135.0,150.0
+chi_c2_2P,psi_1S,81.0,53.0,101.0,109.0,118.0,119.0,93.0,93.0
+chi_c1_2P,psi_2_1D,35.0,18.0,,,2.8,3.4,2.9,3.5
+chi_c1_2P,psi_1_1D,22.0,21.0,,,8.6,10.8,7.9,9.8
+chi_c1_2P,psi_2S,183.0,183.0,103.0,60.0,129.0,145.0,139.0,155.0
+chi_c1_2P,psi_1S,71.0,14.0,83.0,45.0,64.0,68.0,81.0,88.0
+chi_c0_2P,psi_1_1D,13.0,51.0,,,21.0,12.0,20.0,12.0
+chi_c0_2P,psi_2S,64.0,135.0,61.0,44.0,108.0,89.0,121.0,99.0
+chi_c0_2P,psi_1S,56.0,1.3,74.0,9.3,4.0,1.5,6.1,2.3
+h_c_2P,eta_c2_1D,60.0,27.0,,,25.0,25.0,25.0,25.0
+h_c_2P,eta_c_2S,280.0,218.0,309.0,108.0,160.0,176.0,160.0,176.0
+h_c_2P,eta_c_1S,140.0,85.0,134.0,250.0,135.0,134.0,135.0,134.0
+chi_c2_3P,psi_3_2D,148.0,51.0,,,116.0,64.0,121.0,66.0
+chi_c2_3P,psi_2_2D,31.0,10.0,,,18.0,10.0,18.0,10.0
+chi_c2_3P,psi_1_2D,2.1,0.77,,,0.55,0.004,0.44,0.004
+chi_c2_3P,psi_3_1D,0.049,6.8,,,15.0,10.0,17.0,12.0
+chi_c2_3P,psi_2_1D,0.01,0.13,,,4.6,2.5,4.6,2.4
+chi_c2_3P,psi_1_1D,0.0,0.0,,,1.9,1.0,1.5,0.79
+chi_c2_3P,psi_3S,509.0,199.0,,,306.0,121.0,281.0,114.0
+chi_c2_3P,psi_2S,55.0,30.0,,,116.0,90.0,97.0,76.0
+chi_c2_3P,psi_1S,34.0,19.0,,,83.0,69.0,61.0,51.0
+chi_c1_3P,psi_2_2D,58.0,35.0,,,22.0,11.0,23.0,11.0
+chi_c1_3P,psi_1_2D,19.0,15.0,,,8.6,0.0,8.1,0.0
+chi_c1_3P,psi_2_1D,0.035,4.6,,,0.13,0.09,0.12,0.09
+chi_c1_3P,psi_1_1D,0.013999999999999999,0.39,,,4.4,2.7,3.2,2.0
+chi_c1_3P,psi_3S,303.0,181.0,,,305.0,111.0,331.0,117.0
+chi_c1_3P,psi_2S,45.0,8.9,,,78.0,63.0,94.0,74.0
+chi_c1_3P,psi_1S,31.0,2.2,,,36.0,33.0,50.0,45.0
+chi_c0_3P,psi_1_2D,4.4,35.0,,,3.8,9.3,3.8,9.1
+chi_c0_3P,psi_1_1D,0.037000000000000005,9.7,,,0.31,0.44,0.27,0.39
+chi_c0_3P,psi_3S,109.0,145.0,,,214.0,56.0,241.0,61.0
+chi_c0_3P,psi_2S,32.0,0.045,,,13.0,6.9,17.0,9.1
+chi_c0_3P,psi_1S,27.0,1.5,,,0.14,0.08,0.24,0.13
+h_c_3P,eta_c2_2D,99.0,48.0,,,93.0,47.0,93.0,47.0
+h_c_3P,eta_c2_1D,0.16,5.7,,,15.0,8.7,15.0,8.7
+h_c_3P,eta_c_3S,276.0,208.0,,,237.0,146.0,237.0,146.0
+h_c_3P,eta_c_2S,75.0,43.0,,,124.0,96.0,124.0,96.0
+h_c_3P,eta_c_1S,72.0,38.0,,,90.0,77.0,90.0,77.0

@@ -1,7 +1,11 @@
 from IPython import get_ipython
+from IPython.terminal.pt_inputhooks import UnknownBackend
 ipython = get_ipython()
 
-ipython.magic("matplotlib inline")
+try:
+    ipython.magic("matplotlib inline")
+except UnknownBackend:
+    ipython.magic("matplotlib gtk3")
 
 import pandas as pd
 import numpy as np
@@ -26,7 +30,7 @@ plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
 plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
-plt.rc('figure', titlesize=BIGGER_SIZE, figsize=(12, 8))  # fontsize of the figure title
+plt.rc('figure', titlesize=MEDIUM_SIZE, figsize=(8, 6), dpi=100)  # fontsize of the figure title
 
 pd.set_option('precision', 10)
 pd.options.display.float_format = "{:.3g}".format
@@ -53,7 +57,7 @@ def code2name(code):
 def name2code(name):
     try:
         parts = [m \
-                 for m in re.match("(\\\\\w+)(?:_\{(\w+)\})?\((\w+)\)", name).groups()\
+                 for m in re.match("(\\\\?[a-zA-Z]+)(?:_\{?(\w+)\}?)?\((\w+)\)", name).groups()\
                  if m is not None]
     except AttributeError:
         return name
@@ -65,14 +69,14 @@ def name2code(name):
     try:
         parts[0] = vocab[parts[0]]
     except KeyError:
-        return name
+        pass # leave as is. example: h_{b}(3P)
 
     return "_".join(parts)
 
-def stateHash(prefix, cfgcode, pname):
+def stateHash(prefix, cfgname, pname):
     # hash [m, xL, xS, xJ]
     eigen_config = dict()
-    eigen_config.update(json.load(open("../quarkEigen/output/{}.{}/config".format(prefix, cfgcode), "r")))
+    eigen_config.update(json.load(open("../quarkEigen/output/{}.{}/config".format(prefix, cfgname), "r")))
     eigen_config = eigen_config[pname]["eq"]
     return [int(pname.split("_")[-1][:-1])
            ,eigen_config["xL"]
@@ -116,7 +120,61 @@ def dfsort(df, func):
     return df.loc[keys]
 
 def cfgnameSplit(cfgname):
-    cfgcode = cfgname.split(".")
-    cfgtag = "" if len(cfgcode) == 1 else ".".join(cfgcode[:-1])
-    cfgcode = cfgcode[-1]
+    cfgtag = cfgname.split(".")
+    cfgcode = "" if len(cfgtag) == 1 else ".".join(cfgtag[:-1])
+    cfgtag = cfgtag[-1]
     return cfgcode, cfgtag
+
+def readSpec(fname):
+    res = {}
+    with open(fname) as f:
+        in_columns = False
+        in_data = False
+        for line in f:
+            line = line.strip()
+            if not line.startswith("#"):
+                break
+            if line == "" and in_data == True:
+                in_data = False
+                break
+            
+            nospace = line.replace(" ", "")
+            if nospace == "#Columns:":
+                in_columns = True
+                continue
+            
+            if in_columns and nospace.startswith("#*"):
+                in_data = True
+                parts = line.split("::")
+                colname = parts[0].replace(" ", "")[2:]
+                tags = parts[1].strip().split(" ")
+                descr = parts[-1].strip()
+                res.update({colname:
+                               {  "tags": tags
+                                , "descr": descr
+                               }
+                           })
+    return res
+
+def dimTrans(indim, outdim):
+    dimre = re.compile("^\[?([A-Z])")
+    codes = {
+          "": 1
+        , "K": 10**3
+        , "M": 10**6
+        , "G": 10**9
+        , "T": 10**12
+        , "P": 10**15
+    }
+    
+    try:
+        incode = dimre.match(indim).group(1)
+    except AttributeError:
+        incode = ""
+        
+    try:
+        outcode = dimre.match(outdim).group(1)
+    except AttributeError:
+        outcode = ""
+        
+    return codes[incode]/codes[outcode]

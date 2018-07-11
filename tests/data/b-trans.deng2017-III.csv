@@ -1,0 +1,29 @@
+# Partial decay widths for some S and P bottomonium states
+#
+# Columns:
+#
+# * RQM :: [eV] M1 :: relativistic quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.67.014027)
+# * GI :: [eV] M1 :: relativized quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.92.054034)
+# * EFT :: [eV] M1 :: nonrelativistic effective field QCD. [Source](http://link.aps.org/doi/10.1103/PhysRevD.87.074024)
+# * NR :: [eV] M1 :: nonrelativistic constituent quark model. [Source](https://doi.org/10.1103/PhysRevD.93.074027)
+# * SP :: [eV] M1 :: screened potential quark model (Deng et al.). [Source](https://arxiv.org/abs/1607.04696v3)
+#
+instate,outstate,RQM,GI,EFT,NR,SP
+yps_1S,eta_b_1S,5.8,10.0,15.2,9.34,10.0
+yps_2S,eta_b_2S,1.4,0.59,0.67,0.58,0.59
+yps_2S,eta_b_1S,6.4,81.0,6.0,56.5,66.0
+eta_b_2S,yps_1S,12.0,68.0,80.0,45.0,64.0
+yps_3S,eta_b_3S,0.8,0.25,,0.66,3.9
+yps_3S,eta_b_2S,1.5,0.19,,11.0,11.0
+yps_3S,eta_b_1S,11.0,60.0,,57.0,71.0
+eta_b_3S,yps_2S,2.8,9.1,,9.2,8.7
+eta_b_3S,yps_1S,24.0,74.0,,51.0,60.0
+chi_b2_1P,h_b_1P,,0.096,0.12,0.08900000000000001,0.095
+h_b_1P,chi_b1_1P,,0.01,0.009,0.0115,0.0094
+h_b_1P,chi_b0_1P,,0.89,0.96,0.86,0.9
+chi_b2_2P,h_b_1P,,0.24,,1.78,4.5
+chi_b1_2P,h_b_1P,,2.2,,0.17,0.18
+chi_b0_2P,h_b_1P,,9.7,,2.39,16.0
+h_b_2P,chi_b2_1P,,2.2,,0.0069099999999999995,1.1
+h_b_2P,chi_b1_1P,,1.1,,1.28,2.5
+h_b_2P,chi_b0_1P,,0.32,,36.4,10.0

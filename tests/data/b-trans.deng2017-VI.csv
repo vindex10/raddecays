@@ -1,0 +1,23 @@
+# Partial decay widths for nS and nP (n=1,2) bottomonium states
+#
+# Columns:
+#
+# * SNR0 :: [KeV] E1 :: previous screened potential quark model (zero-order wf). [Source](http://dx.doi.org/10.1088/0253-6102/52/4/20)
+# * SNR1 :: [KeV] E1 :: previous screened potential quark model (first-order relativistically corrected wf). [Source](http://dx.doi.org/10.1088/0253-6102/52/4/20)
+# * NR :: [KeV] E1 :: nonrelativistic constituent quark model. [Source](https://doi.org/10.1103/PhysRevD.95.074002)
+# * GI :: [KeV] E1 :: relativized quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.92.054034)
+# * SP :: [KeV] :: screened potential quark model (Deng et al.). [Source](https://arxiv.org/abs/1607.04696v3)
+#
+instate,outstate,SNR0,SNR1,NR,GI,SP
+yps_4S,chi_b2_1P,0.14,0.56,0.012,,0.66
+yps_4S,chi_b1_1P,0.1,0.2,0.047,,0.017
+yps_4S,chi_b0_1P,0.04,0.001,0.059000000000000004,,0.14
+yps_4S,chi_b2_2P,0.14,0.56,0.11,,0.34
+yps_4S,chi_b1_2P,0.09,0.001,0.18,,0.024
+yps_4S,chi_b0_2P,0.04,0.21,0.17,,0.44
+yps_4S,chi_b2_3P,0.55,0.52,1.45,0.82,4.4
+yps_4S,chi_b1_3P,0.91,0.74,1.17,0.84,4.9
+yps_4S,chi_b0_3P,0.82,0.54,0.61,0.48,3.4
+eta_b_4S,h_c_1P,0.9,5.64,,,1.98
+eta_b_4S,h_c_2P,0.95,2.16,,,1.56
+eta_b_4S,h_c_3P,1.24,5.68,,1.24,17.4

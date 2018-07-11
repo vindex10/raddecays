@@ -1,0 +1,32 @@
+# Deacy widths. Charmonium. Higher S- states.
+#
+# Columns:
+#
+# * NR :: [KeV] - E1 :: nonrelativistic constituent quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * GI :: [KeV] - E1 :: relativized quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * LP_E1 :: [KeV] E1 :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP_E1 :: [KeV] E1 :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * LP :: [KeV] :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP :: [KeV] :: screened relativistic potential model. (Source)[https://arxiv.org/abs/1608.00287v3]
+#
+instate,outstate,NR,GI,LP_E1,SP_E1,LP,SP
+psi_3S,chi_c2_2P,14.0,48.0,65.0,79.0,67.0,82.0
+psi_3S,chi_c1_2P,39.0,43.0,58.0,71.0,55.0,67.0
+psi_3S,chi_c0_2P,54.0,22.0,21.0,31.0,19.0,27.0
+psi_3S,chi_c2_1P,0.7,13.0,0.21,2.1,0.25,2.5
+psi_3S,chi_c1_1P,0.53,0.85,4.8,8.0,4.0,6.7
+psi_3S,chi_c0_1P,0.27,0.63,9.1,10.6,5.9,6.7
+eta_c_3S,h_c_2P,105.0,64.0,104.0,128.0,104.0,128.0
+eta_c_3S,h_c_1P,9.1,28.0,0.045,1.4,0.045,1.4
+psi_4S,chi_c2_1P,0.61,5.2,0.13,0.66,0.17,0.84
+psi_4S,chi_c1_1P,0.41,0.53,3.8,3.9,2.9,3.0
+psi_4S,chi_c0_1P,0.18,0.13,7.5,6.2,3.7,2.7
+psi_4S,chi_c2_2P,0.62,15.0,11.0,4.7,13.0,5.3
+psi_4S,chi_c1_2P,0.49,0.92,24.0,12.0,20.0,11.0
+psi_4S,chi_c0_2P,0.24,0.39,17.0,12.0,12.0,8.7
+psi_4S,chi_c2_3P,68.0,66.0,80.0,39.0,82.0,40.0
+psi_4S,chi_c1_3P,126.0,54.0,74.0,38.0,71.0,37.0
+psi_4S,chi_c0_3P,0.003,25.0,40.0,23.0,36.0,21.0
+eta_c_4S,h_c_1P,5.2,9.6,0.29,0.63,0.29,0.63
+eta_c_4S,h_c_2P,10.1,31.3,20.0,7.9,20.0,7.9
+eta_c_4S,h_c_3P,159.0,101.0,102.0,70.0,102.0,70.0

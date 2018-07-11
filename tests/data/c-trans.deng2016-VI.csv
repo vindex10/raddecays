@@ -1,0 +1,28 @@
+# Deacy widths. Charmonium. E1-dominated transitions between low-lying states
+#
+# Columns:
+#
+# * RQM :: [KeV] E1 :: relativistic quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.67.014027]
+# * NR :: [KeV] E1 :: nonrelativistic constituent quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * GI :: [KeV] E1 :: relativized quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * SNR0 :: [KeV] E1 :: previous screened potential quark model (zero-order wf). [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * SNR1 :: [KeV] E1 :: previous screened potential quark model (first-order relativistically corrected wf). [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * LP_E1 :: [KeV] E1 :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP_E1 :: [KeV] E1 :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * LP :: [KeV] :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP :: [KeV] :: screened relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+#
+instate,outstate,RQM,NR,GI,SNR0,SNR1,LP_E1,SP_E1,LP,SP
+psi_2S,chi_c2_1P,18.2,38.0,24.0,43.0,34.0,36.0,44.0,38.0,46.0
+psi_2S,chi_c1_1P,22.9,54.0,29.0,62.0,36.0,45.0,48.0,42.0,45.0
+psi_2S,chi_c0_1P,26.3,63.0,26.0,74.0,25.0,27.0,26.0,22.0,22.0
+eta_c_2S,h_c_1P,41.0,49.0,36.0,146.0,104.0,49.0,52.0,49.0,52.0
+chi_c2_1P,psi_1S,327.0,424.0,313.0,473.0,309.0,327.0,338.0,284.0,292.0
+chi_c1_1P,psi_1S,265.0,314.0,239.0,354.0,244.0,269.0,278.0,306.0,319.0
+chi_c0_1P,psi_1S,121.0,152.0,114.0,167.0,117.0,141.0,146.0,172.0,179.0
+h_c_1P,eta_c_1S,560.0,498.0,352.0,764.0,323.0,361.0,373.0,361.0,373.0
+psi_1_1D,chi_c2_1P,6.9,4.9,3.3,5.8,4.6,5.4,5.7,7.1,8.1
+psi_1_1D,chi_c1_1P,135.0,125.0,77.0,150.0,93.0,115.0,111.0,138.0,135.0
+psi_1_1D,chi_c0_1P,355.0,403.0,213.0,486.0,197.0,243.0,232.0,272.0,261.0
+psi_2_1D,chi_c2_1P,59.0,64.0,66.0,70.0,55.0,79.0,82.0,91.0,96.0
+psi_2_1D,chi_c1_1P,215.0,307.0,268.0,342.0,208.0,281.0,291.0,285.0,296.0

@@ -1,0 +1,26 @@
+# Partial decay width of bottomonium as a fraction of total
+#
+instate,outstate,frac_width,egamma
+yps_2S,chi_b1_1P,6.90E-02,0.12963
+yps_2S,chi_b2_1P,7.15E-02,0.11044
+yps_2S,chi_b0_1P,3.80E-02,0.1625
+yps_2S,eta_b_1S,0.00039,0.6093
+yps_3S,chi_b2_2P,1.31E-01,0.08619
+yps_3S,chi_b1_2P,1.26E-01,0.09926
+yps_3S,chi_b0_2P,5.90E-02,0.1219
+yps_3S,chi_b2_1P,0.0099,
+yps_3S,chi_b1_1P,0.0009,
+yps_3S,chi_b0_1P,0.0027,
+yps_3S,eta_b_1S,0.00051,0.9206
+chi_b2_1P,yps_1S,1.88E-01,
+chi_b1_1P,yps_1S,3.50E-01,
+chi_b0_1P,yps_1S,1.94E-02,
+h_b_1P,eta_b_1S,5.20E-01,
+chi_b2_2P,yps_2S,8.90E-02,
+chi_b2_2P,yps_1S,6.60E-02,
+chi_b1_2P,yps_2S,1.81E-01,
+chi_b1_2P,yps_1S,9.90E-02,
+chi_b0_2P,yps_2S,1.38E-02,
+chi_b0_2P,yps_1S,0.0038,
+h_b_2P,eta_b_1S,2.20E-01,
+h_b_2P,eta_b_2S,4.80E-01,

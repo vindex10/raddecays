@@ -1,0 +1,40 @@
+# Charmonium spectrum
+#
+# Columns:
+#
+# * PDG :: [MeV] :: total decay widths from PDG 2018. [Source](https://pdg.lbl.gov)
+name,PDG
+psi_1S,0.0929
+eta_c_1S,31.800000000000004
+psi_2S,0.296
+eta_c_2S,11.3
+psi_3S,80.0
+eta_c_3S,
+psi_4S,62.0
+eta_c_4S,
+psi_5S,
+eta_c_5S,
+chi_c2_1P,1.93
+chi_c1_1P,0.84
+chi_c0_1P,10.5
+h_c_1P,0.7
+chi_c2_2P,24.0
+chi_c1_2P,
+chi_c0_2P,
+h_c_2P,
+chi_c2_3P,
+chi_c1_3P,
+chi_c0_3P,
+h_c_3P,
+psi_3_1D,
+psi_2_1D,
+psi_1_1D,27.2
+eta_c2_1D,
+psi_3_2D,
+psi_2_2D,
+psi_1_2D,70.0
+eta_c2_2D,
+psi_3_3D,
+psi_2_3D,
+psi_1_3D,
+eta_c2_3D,

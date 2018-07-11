@@ -1,0 +1,46 @@
+# Partial decay widths for 1P 1D and 2D bottomonium states
+#
+# Columns:
+#
+# * RQM :: [KeV] E1 :: relativistic quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.67.014027)
+# * SNR0 :: [KeV] E1 :: previous screened potential quark model (zero-order wf). [Source](http://dx.doi.org/10.1088/0253-6102/52/4/20)
+# * SNR1 :: [KeV] E1 :: previous screened potential quark model (first-order relativistically corrected wf). [Source](http://dx.doi.org/10.1088/0253-6102/52/4/20)
+# * GI :: [KeV] E1 :: relativized quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.92.054034)
+# * NR :: [KeV] E1 :: nonrelativistic constituent quark model. [Source](https://doi.org/10.1103/PhysRevD.95.074002)
+# * SP :: [KeV] :: screened potential quark model (Deng et al.). [Source](https://arxiv.org/abs/1607.04696v3)
+#
+instate,outstate,RQM,SNR0,SNR1,GI,NR,SP
+chi_b2_1P,yps_1S,40.2,38.2,32.6,32.8,39.15,31.8
+chi_b1_1P,yps_1S,36.6,33.6,30.0,29.5,35.66,31.9
+chi_b0_1P,yps_1S,29.9,26.6,24.3,23.8,28.07,27.5
+h_b_1P,eta_b_1S,52.6,55.8,36.3,35.7,43.66,35.8
+yps_3_1D,chi_b2_1P,24.6,26.4,24.5,24.3,24.74,32.1
+yps_3_1D,chi_b1_1P,,,,,0.0,0.011000000000000001
+yps_3_1D,chi_b0_1P,,,,,0.0,9.2e-05
+yps_2_1D,chi_b2_1P,6.35,6.29,5.87,5.6,6.23,7.23
+yps_2_1D,chi_b1_1P,23.3,23.8,19.8,19.2,21.95,21.8
+yps_2_1D,chi_b0_1P,,,,,0.0,0.0083
+yps_1_1D,chi_b2_1P,0.69,0.65,0.61,0.56,0.65,1.02
+yps_1_1D,chi_b1_1P,12.7,12.3,10.3,9.7,12.29,13.3
+yps_1_1D,chi_b0_1P,23.4,23.6,16.7,16.5,20.98,19.8
+eta_b2_1D,h_b_1P,28.4,42.3,36.5,24.9,17.23,30.3
+yps_3_2D,chi_b2_1P,,4.01,3.73,2.6,3.8,5.22
+yps_3_2D,chi_b1_1P,,,,,0.0,0.16
+yps_3_2D,chi_b0_1P,,,,,0.0,0.08
+yps_3_2D,chi_b2_2P,,18.0,15.9,16.4,10.7,17.0
+yps_3_2D,chi_b1_2P,,,,,0.0,0.0034
+yps_3_2D,chi_b0_2P,,,,,0.0,0.00066
+yps_2_2D,chi_b2_1P,,0.98,0.68,0.4,0.8,1.11
+yps_2_2D,chi_b1_1P,,3.26,4.46,2.6,3.43,4.0
+yps_2_2D,chi_b0_1P,,,,,0.0,0.0089
+yps_2_2D,chi_b2_2P,,4.17,3.82,3.8,2.55,3.75
+yps_2_2D,chi_b1_2P,,181.0,12.1,12.7,9.1,11.4
+yps_2_2D,chi_b0_2P,,,,,0.0,0.0017
+yps_1_2D,chi_b2_1P,,0.11,0.05,0.9,0.061,0.44
+yps_1_2D,chi_b1_1P,,1.76,1.87,2.9,1.58,2.17
+yps_1_2D,chi_b0_1P,,2.79,6.2,1.6,3.52,5.56
+yps_1_2D,chi_b2_2P,,0.42,0.39,0.4,0.24,0.47
+yps_1_2D,chi_b1_2P,,7.87,6.35,6.5,4.84,6.74
+yps_1_2D,chi_b0_2P,,15.1,9.49,10.6,8.35,9.58
+eta_b2_2D,h_b_1P,,6.19,7.3,3.0,4.15,5.66
+eta_b2_2D,h_b_2P,,31.3,25.4,16.5,11.66,15.6

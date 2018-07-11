@@ -1,0 +1,18 @@
+# Deacy widths. Charmonium. Some low-lying S- states.
+#
+# Columns:
+#
+# * RQM :: [KeV] M1 :: relativistic quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.67.014027]
+# * NR :: [KeV] M1 :: nonrelativistic constituent quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * GI :: [KeV] M1 :: relativized quark model. (Source)[http://link.aps.org/doi/10.1103/PhysRevD.72.054026]
+# * LP :: [KeV] M1 :: linear relativistic potential model (Deng et al.). (Source)[https://arxiv.org/abs/1608.00287v3]
+# * SP :: [KeV] M1 :: screened relativistic potential model. (Source)[https://arxiv.org/abs/1608.00287v3]
+#
+instate,outstate,RQM,NR,GI,LP,SP
+psi_1S,eta_c_1S,1.05,2.9,2.4,2.39,2.44
+psi_2S,eta_c_2S,0.043,0.21,0.17,0.19,0.19
+psi_2S,eta_c_1S,0.95,4.6,9.6,8.08,7.8
+eta_c_2S,psi_1S,1.53,7.9,5.6,2.64,2.29
+psi_3S,eta_c_3S,,0.046,0.067,0.051,0.08800000000000001
+psi_3S,eta_c_2S,,0.61,2.6,1.65,1.78
+psi_3S,eta_c_1S,,3.5,9.0,6.66,6.76

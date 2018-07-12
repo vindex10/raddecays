@@ -1,0 +1,50 @@
+# Errors for charmonium spectrum
+#
+# psi_1_1D ~ psi(3770)
+# psi_3S ~ psi(4040)
+# psi_1_2D ~ psi(4160)
+# psi_2_2D ~ psi_2(3823)
+# psi_4S ~ psi(4415)
+# chi_c0_2P ~ chi_c0(3860)
+# chi_c1_2P ~ chi_c1(3872)
+# chi_c2_2P ~ chi_c2(3930)
+#
+# Columns:
+#
+# * PDG :: [MeV] :: Particle Data Group 2018. [Source](https://pdg.lbl.gov)
+# 
+name,PDG
+psi_1S,0.006
+eta_c_1S,0.5
+psi_2S,0.025
+eta_c_2S,1.2
+psi_3S,1
+eta_c_3S,
+psi_4S,4
+eta_c_4S,
+psi_5S,
+eta_c_5S,
+chi_c2_1P,0.07
+chi_c1_1P,0.05
+chi_c0_1P,0.3
+h_c_1P,0.11
+chi_c2_2P,2.6
+chi_c1_2P,0.17
+chi_c0_2P,29
+h_c_2P,
+chi_c2_3P,
+chi_c1_3P,
+chi_c0_3P,
+h_c_3P,
+psi_3_1D,
+psi_2_1D,1.2
+psi_1_1D,1.2
+eta_c2_1D,
+psi_3_2D,
+psi_2_2D,
+psi_1_2D,5
+eta_c2_2D,
+psi_3_3D,
+psi_2_3D,
+psi_1_3D,
+eta_c2_3D,

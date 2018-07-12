@@ -2,11 +2,11 @@
 #
 # Columns:
 #
-# * PDG [MeV] - Particle Data Group 2018. [Source](https://pdg.lbl.gov)
-# * BGS [MeV] - screened potential model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.72.054026)
-# * SNR [MeV] - screened potential model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
-# * LP [MeV] - linear potential model (Deng et al.). [Source](https://arxiv.org/abs/1608.00287v3)
-# * SP [MeV] - screened potential model (Deng et al.). [Source](https://arxiv.org/abs/1608.00287v3)
+# * PDG :: [MeV] :: Particle Data Group 2018. [Source](https://pdg.lbl.gov)
+# * BGS :: [MeV] :: screened potential model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.72.054026)
+# * SNR :: [MeV] :: screened potential model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.79.094004)
+# * LP :: [MeV] :: linear potential model (Deng et al.). [Source](https://arxiv.org/abs/1608.00287v3)
+# * SP :: [MeV] :: screened potential model (Deng et al.). [Source](https://arxiv.org/abs/1608.00287v3)
 # 
 name,PDG,BGS,SNR,LP,SP
 psi_1S,3097.0,3090.0,3097,3097,3097

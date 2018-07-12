@@ -2,11 +2,11 @@
 #
 # Columns:
 #
-# * PDG [MeV] - Particle Data Group 2018. [Source](https://pdg.lbl.gov)
-# * SNR [MeV] - screened potential model. [Source](http://dx.doi.org/10.1088/0253-6102/52/4/20)
-# * GI [MeV] - relativized quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.92.054034)
-# * NR [MeV] - nonrelativistic constituent quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.93.074027)
-# * SP [MeV] - screened potential model (Deng et al.). [Source](https://arxiv.org/abs/1607.04696v3)
+# * PDG :: [MeV] :: Particle Data Group 2018. [Source](https://pdg.lbl.gov)
+# * SNR :: [MeV] :: screened potential model. [Source](http://dx.doi.org/10.1088/0253-6102/52/4/20)
+# * GI :: [MeV] :: relativized quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.92.054034)
+# * NR :: [MeV] :: nonrelativistic constituent quark model. [Source](http://link.aps.org/doi/10.1103/PhysRevD.93.074027)
+# * SP :: [MeV] :: screened potential model (Deng et al.). [Source](https://arxiv.org/abs/1607.04696v3)
 #
 name,PDG,SNR,GI,NR,SP
 yps_1S,9460.0,9460.0,9465,9502.0,9460

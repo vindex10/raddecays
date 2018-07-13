@@ -1,5 +1,14 @@
 # Charmonium spectrum
 #
+# psi_1_1D ~ psi(3770)
+# psi_3S ~ psi(4040)
+# psi_1_2D ~ psi(4160)
+# psi_2_2D ~ psi_2(3823)
+# psi_4S ~ psi(4415)
+# chi_c0_2P ~ chi_c0(3860)
+# chi_c1_2P ~ chi_c1(3872)
+# chi_c2_2P ~ chi_c2(3930)
+#
 # Columns:
 #
 # * PDG :: [MeV] :: Particle Data Group 2018. [Source](https://pdg.lbl.gov)

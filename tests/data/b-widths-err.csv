@@ -1,20 +1,20 @@
-# Total decay widths of bottomonium states
+# Errors for total decay widths of bottomonium
 #
 # Columns:
 #
-# * PDG :: [MeV] :: total decay widths from PDG 2018. [Source](https://pdg.lbl.gov)
+# * PDG :: [MeV] :: errors for total decay widths from PDG 2018. [Source](https://pdg.lbl.gov)
 name,PDG
-yps_1S,0.05402
-eta_b_1S,10
-yps_2S,0.03198
+yps_1S,1.25E-3
+eta_b_1S,4.5
+yps_2S,2.63E-3
 eta_b_2S,
-yps_3S,0.020319999999999998
+yps_3S,1.85E-3
 eta_b_3S,
-yps_4S,20.5
+yps_4S,2.5
 eta_b_4S,
-yps_5S,51.0
+yps_5S,6.5
 eta_b_5S,
-yps_6S,49.0
+yps_6S,12
 eta_b_6S,
 chi_b2_1P,
 chi_b1_1P,

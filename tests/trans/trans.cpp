@@ -47,6 +47,14 @@ int main(int argc, char* argv[]) {
     string prefix = system.substr(system.rfind("-")+1);
     
     json eigenP = gain_config(("../quarkEigen/output/"+prefix+"."+system+"/config").c_str(), (outdir+"/eigen_config").c_str());
+    
+    // update eigenP with right energies
+    for (json::iterator pcl = eigenP.begin(); pcl != eigenP.end(); ++pcl) {
+        string pclname = pcl.key();
+        ifstream Edat(("../quarkEigen/output/"+prefix+"."+system+"/data/"+pclname+"/minE.dat").c_str());
+        eigenP[pclname]["eq"]["E"] = readPlot(Edat, false)[1].back();
+    }
+
     json uP = gain_config(("../quarkU/output/"+prefix+"."+system+"/config").c_str(), (outdir+"/u_config").c_str());
 
     fstream exclF(("output/"+title+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);

@@ -254,10 +254,13 @@ std::complex<double> Interaction<Eq>::melELW(double xlam, double xjf, double xji
     params.obj = this;
     params.xlam = xlam;
     params.coefQ = coefQ(3., 2.-xlam, xjf, xji);
+    /*cout << "xjf: " << xjf << ", xji: " << xji << ", xlam: " << xlam << " :: " << params.coefQ << endl;*/
+    /*cout << "Ef: " << outstate.eq.E << ", Ei: " << instate.eq.E << endl;*/
 
     double minR = 0.;
     double maxR = std::min(instate.maxR, outstate.maxR);
     hcubature(2, melELW_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, res, &err);
+    /*cout << "Mel: " <<  res[0] << " + i" << res[1] << endl;*/
     return std::complex<double>(res[0], res[1]);
 }
 
@@ -403,6 +406,6 @@ double  Interaction<Eq>::reduceWidth(double width) {
     double Mf = 2*outstate.eq.env.mC + outstate.eq.E;
     double Mi = 2*instate.eq.env.mC + instate.eq.E;
     /*cout << "reduce: " << width << ", " << alphaEM/2.*(Mi*Mi*Mi*Mi - Mf*Mf*Mf*Mf)/(Mi*Mi*Mi) << ", " << (Mi - Mf) << endl;*/
-    return 1./(alphaEM/2.*(Mi*Mi*Mi*Mi - Mf*Mf*Mf*Mf)/(Mi*Mi*Mi)/width)/(Mi-Mf);
+    return 1./(alphaEM/2.*(Mi*Mi*Mi*Mi - Mf*Mf*Mf*Mf)/(Mi*Mi*Mi)/width);
 }
 

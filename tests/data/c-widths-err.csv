@@ -1,4 +1,4 @@
-# Total decay widths of charmonium states
+# Errors for total decay widths of charmonium
 #
 # psi_1_1D ~ psi(3770)
 # psi_3S ~ psi(4040)
@@ -13,21 +13,21 @@
 #
 # * PDG :: [MeV] :: total decay widths from PDG 2018. [Source](https://pdg.lbl.gov)
 name,PDG
-psi_1S,0.0929
-eta_c_1S,32.0
-psi_2S,0.294
-eta_c_2S,11.3
-psi_3S,80.0
+psi_1S,2.8E-3
+eta_c_1S,0.8
+psi_2S,8E-3
+eta_c_2S,3.05
+psi_3S,10
 eta_c_3S,
-psi_4S,62.0
+psi_4S,20
 eta_c_4S,
 psi_5S,
 eta_c_5S,
-chi_c2_1P,1.97
-chi_c1_1P,0.84
-chi_c0_1P,10.8
+chi_c2_1P,0.09
+chi_c1_1P,0.04
+chi_c0_1P,0.6
 h_c_1P,0.7
-chi_c2_2P,24
+chi_c2_2P,6
 chi_c1_2P,
 chi_c0_2P,
 h_c_2P,
@@ -37,11 +37,11 @@ chi_c0_3P,
 h_c_3P,
 psi_3_1D,
 psi_2_1D,
-psi_1_1D,27.2
+psi_1_1D,1.0
 eta_c2_1D,
 psi_3_2D,
 psi_2_2D,
-psi_1_2D,70.0
+psi_1_2D,10
 eta_c2_2D,
 psi_3_3D,
 psi_2_3D,

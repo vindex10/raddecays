@@ -1,5 +1,18 @@
 # Partial decay width of charmonium as a fraction of total
 #
+# psi_1_1D ~ psi(3770)
+# psi_3S ~ psi(4040)
+# psi_1_2D ~ psi(4160)
+# psi_2_2D ~ psi_2(3823)
+# psi_4S ~ psi(4415)
+# chi_c0_2P ~ chi_c0(3860)
+# chi_c1_2P ~ chi_c1(3872)
+# chi_c2_2P ~ chi_c2(3930)
+#
+# Columns:
+#
+# * frac_width :: [1] :: total decay widths from PDG 2018. [Source](https://pdg.lbl.gov)
+#
 instate,outstate,frac_width
 psi_1S,eta_c_1S,0.017
 psi_2S,eta_c_2S,7e-4

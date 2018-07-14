@@ -55,6 +55,12 @@ int main(int argc, char* argv[]) {
         eigenP[pclname]["eq"]["E"] = readPlot(Edat, false)[1].back();
     }
 
+    // overwrite Deng's masses with mentioned in cfg
+    if (cfgP.find("states") != cfgP.end()) {
+        eigenP.merge_patch(cfgP["states"]);
+    }
+
+
     json uP = gain_config(("../quarkU/output/"+prefix+"."+system+"/config").c_str(), (outdir+"/u_config").c_str());
 
     fstream exclF(("output/"+title+"/"+"exclude").c_str(), fstream::in|fstream::out|fstream::app);
@@ -123,6 +129,8 @@ int main(int argc, char* argv[]) {
 
         init_state(inter.instate, instateName, datapath, configs);
         init_state(inter.outstate, outstateName, datapath, configs);
+
+        cout << inter.instate.eq.E << " -> " << inter.outstate.eq.E << endl;
 
         double prev, cur;
         double xJmax = 25.;

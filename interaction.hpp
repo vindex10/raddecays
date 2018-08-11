@@ -13,12 +13,8 @@ public:
     State<Eq> instate, outstate;
     double alphaEM;
 
-    double coefQ(double xJ, double xlam, double xjf, double xji);
-    double coefC(double xL, double xJ, double xlam, double xjf, double xji);
-
     struct melParamBundle {
         Interaction<Eq>* obj;
-        double coefC1, coefC2, coefQ;
         double xJ, xlam;
     };
 

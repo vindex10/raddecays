@@ -5,7 +5,7 @@ include $(SRC)/Makefile
 
 LIBS:=-lm -lgsl -lgslcblas -lboost_filesystem -lboost_system
 
-TRANSITIONS:=$(basename $(notdir $(wildcard transitions/*)))
+TRANSITIONS:=$(basename $(notdir $(wildcard transitions/*.cfg)))
 
 .PHONY: all prepare generate clean $(TRANSITIONS)
 

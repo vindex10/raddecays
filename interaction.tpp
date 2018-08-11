@@ -18,51 +18,6 @@ double Interaction<Eq>::widthMel(std::complex<double> mel) {
 }
 
 template <class Eq>
-double Interaction<Eq>::coefQ(double xJ, double xlam, double xjf, double xji) {
-    if (std::lround(instate.eq.xS - outstate.eq.xS) != 0) {
-        return 0.;
-    }
-
-    double res = 0;
-    double xs;
-    for (int xs_cnt = std::lround(instate.eq.xS); xs_cnt >= -std::lround(instate.eq.xS-2.); xs_cnt-=2) {
-        xs = (double)xs_cnt;
-        res += clebsch(outstate.eq.xL, xjf-xs+1., outstate.eq.xS, xs, outstate.eq.xJ, xjf)*
-               clebsch(instate.eq.xL, xji-xs+1., instate.eq.xS, xs, instate.eq.xJ, xji)*
-               clebsch(xJ, xlam, instate.eq.xL, xji-xs+1., outstate.eq.xL, xjf-xs+1.);
-    }
-    res *= std::sqrt(instate.eq.xL/outstate.eq.xL/4./M_PI)*clebsch(xJ, 1., instate.eq.xL, 1., outstate.eq.xL, 1.);
-    
-    return res;
-}
-
-template <class Eq>
-double Interaction<Eq>::coefC(double xL, double xJ, double xlam, double xjf, double xji) {
-    double res = 0;
-    double pref;
-    double xm2, xsq, xsqbar;
-    for (int m2_cnt = 3; m2_cnt >= -1; m2_cnt-=2)
-        for(int sq_cnt = 2; sq_cnt >= 0; sq_cnt-=2)
-            for(int sqbar_cnt = 2; sqbar_cnt >= 0; sqbar_cnt -= 2) {
-                xm2 = (double)m2_cnt;
-                xsq = (double)sq_cnt;
-                xsqbar = (double)sqbar_cnt;
-
-                pref = m2_cnt == 1 ? 2.*(xsq-1.)/2. : -std::sqrt(2)*(xm2 - 1.)/2.;
-
-                res += pref*
-                       clebsch(xL, xlam-xm2+1., 3., xm2, xJ, xlam)*
-                       clebsch(outstate.eq.xL, xjf-(xsq+xsqbar+xm2-2.)+1., outstate.eq.xS, xsq+xsqbar+xm2-2., outstate.eq.xJ, xjf)*
-                       clebsch(instate.eq.xL, xji-(xsq+xsqbar-1.)+1., instate.eq.xS, xsq+xsqbar-1.,instate.eq.xJ, xji)*
-                       clebsch(2., xsq+xm2-1., 2., xsqbar, outstate.eq.xS, xsq+xsqbar+xm2-2.)*
-                       clebsch(2., xsq, 2., xsqbar, instate.eq.xS, xsq+xsqbar-1.)*
-                       clebsch(instate.eq.xL, xji-(xsq+xsqbar-1.)+1., xL, xlam-xm2+1., outstate.eq.xL, xjf-(xsqbar+xsq+xm2-2.)+1.);
-            }
-    res *= std::sqrt(instate.eq.xL/4./M_PI/outstate.eq.xL)*clebsch(instate.eq.xL, 1., xL, 1., outstate.eq.xL, 1.);
-    return res;
-}
-
-template <class Eq>
 int Interaction<Eq>::melMxJ_f(unsigned ndim
                      ,const double *x
                      ,void *fdata
@@ -73,45 +28,62 @@ int Interaction<Eq>::melMxJ_f(unsigned ndim
     State<Eq>* out = &(params->obj->outstate);
     /*cout << "in MxJ" << endl;*/
 
-    if (std::lround((in->eq.xS + out->eq.xS + params->xJ - 3.)/2.) % 2 == 0) {
-        fval[0] = 0.;
-        fval[1] = 0.;
-        return 0;
-    }
-
     double k = 2.*out->eq.env.mC + out->eq.E;
     k = -k + std::sqrt(k*k + 2*k*(in->eq.E - out->eq.E));
 
-    double pC = std::sqrt(2.*M_PI)*(params->xJ)*k/2./(in->eq.env.muR)*(params->coefC1)*gsl_sf_bessel_jl(std::lround((params->xJ - 1.)/2.), (*x)*k/2.);
-    /*cout << "0: k: " << k << ", r: "<< *x << " === " << pC << endl;*/
-    pC *= (*in)(*x)*(*out)(*x);
-
-    if (std::lround((params->xJ-1.)/2.)%2 == 0) {
-        fval[0] = (std::lround((params->xJ-1.)/4.)%2 == 0 ? 1. : -1.)*pC;
-        fval[1] = 0.;
-    } else {
-        fval[0] = 0.;
-        fval[1] = (std::lround((params->xJ-3.)/4.)%2 == 0 ? 1. : -1.)*pC;
-    }
+    fval[0] = (*in)(*x)*(*out)(*x)*gsl_sf_bessel_jl(std::lround((params->xJ-3.)/2.), (*x)*k/2.);
+    fval[1] = (*in)(*x)*(*out)(*x)*gsl_sf_bessel_jl(std::lround((params->xJ+1)/2.), (*x)*k/2.);
 
     return 0;
 }
 
 template <class Eq>
 std::complex<double> Interaction<Eq>::melMxJ(double xJ, double xlam, double xjf, double xji) {
-    double* res = new double[2];
+    if (std::lround((instate.eq.xS + outstate.eq.xS + xJ - 3.)/2.) % 2 != 0) {
+        return 0.;
+    }
+
+    double* jmels = new double[2];
     double err;
     struct melParamBundle params;
     /*cout << "MxJ.  xJ: " << xJ << ", xlam: " << xlam << ", xjf: " << xjf << ", xji: " << xji << endl;*/
     params.obj = this;
     params.xJ = xJ;
-    params.coefC1 = coefC(xJ, xJ, 2.-xlam, xjf, xji);
-    /*cout << "coefC (xJ = " << xJ << ")" << params.coefC1 << endl;*/
 
     double minR = 0.;
     double maxR = std::min(instate.maxR, outstate.maxR);
-    hcubature(2, melMxJ_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, res, &err);
-    return std::complex<double>(res[0], res[1]);
+    hcubature(2, melMxJ_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, jmels, &err);
+
+    double k = 2.*outstate.eq.env.mC + outstate.eq.E;
+    k = -k + std::sqrt(k*k + 2*k*(instate.eq.E - outstate.eq.E));
+
+    std::complex<double> res = 0.;
+    res += gsl_sf_coupling_9j(outstate.eq.xJ-1., instate.eq.xJ-1., xJ-1.
+                             ,outstate.eq.xS-1., instate.eq.xS-1., 2.
+                             ,outstate.eq.xL-1., instate.eq.xL-1., xJ-3.)
+        *  clebsch(xJ-2., 1., instate.eq.xL, 1., outstate.eq.xL, 1.)
+        *  std::sqrt((xJ+1.)/2.*(xJ-2.))
+        *  jmels[0];
+    res -= gsl_sf_coupling_9j(outstate.eq.xJ-1., instate.eq.xJ-1., xJ-1.
+                             ,outstate.eq.xS-1., instate.eq.xS-1., 2.
+                             ,outstate.eq.xL-1., instate.eq.xL-1., xJ+1.)
+        *  clebsch(xJ+2., 1., instate.eq.xL, 1., outstate.eq.xL, 1.)
+        *  std::sqrt((xJ-1.)/2.*(xJ+2.))
+        *  jmels[1];
+    res *= std::sqrt(3.)/2.*(xlam-1)/2.*k/instate.eq.env.muR
+        *  clebsch(xJ, 2.-xlam, instate.eq.xJ, xji, outstate.eq.xJ, xjf)
+        *  gsl_sf_coupling_6j(outstate.eq.xS-1., 2., instate.eq.xS-1.
+                                          , 1., 1., 1.)
+        *  std::sqrt(instate.eq.xL*instate.eq.xS*outstate.eq.xS*instate.eq.xJ*xJ);
+
+    if (std::lround((xJ-1.)/2.+outstate.eq.xS)%2 == 0) {
+        res *= (std::lround((xJ-1.)/2.+outstate.eq.xS)%4 == 0 ? 1. : -1.);
+    } else {
+        res *= (std::lround((xJ-1.)/2.+outstate.eq.xS - 1)%4 == 0 ? 1. : -1.)
+            *  std::complex<double>(0., 1.);
+    }
+
+    return res;
 }
 
 template <class Eq>
@@ -172,55 +144,62 @@ int Interaction<Eq>::melExJ_f(unsigned ndim
     double k = 2*out->eq.env.mC + out->eq.E;
     k = -k + std::sqrt(k*k + 2*k*(in->eq.E - out->eq.E));
 
-    fval[0] = 0.;
-    fval[1] = 0.;
+    fval[0] = (*in)(*x)*(*out)(*x)*gsl_sf_bessel_jl(std::lround((params->xJ-1.)/2.), (*x)*k/2.);
     /*cout << "in ExJ" << endl;*/
-
-    if (std::lround((params->xJ - 1.)/2.) % 2 != 0) {
-        double p = 2*std::sqrt(2*M_PI)*(out->eq.E - in->eq.E)*params->xJ*std::sqrt((params->xJ - 1.)*(params->xJ+1.)/4.)*gsl_sf_bessel_jl(std::lround((params->xJ-1.)/2.), k*(*x)/2.)*(params->coefQ)/k;
-        /*cout << "1: k: " << k << ", r: "<< *x << " === " << p << endl;*/
-        p *= (*in)(*x)*(*out)(*x);
-        
-        if (std::lround((params->xJ-1.)/2.)%2 == 0) {
-            fval[0] += (std::lround((params->xJ-1.)/4.)%2 == 0 ? 1.:-1.)*p;
-        } else {
-            fval[1] += (std::lround((params->xJ-3.)/4.)%2 == 0 ? 1.:-1.)*p;
-        }
-    }
-
-    if (std::lround((in->eq.xS + out->eq.xS + params->xJ-3.)/2.) % 2 == 0) {
-        double p = -std::sqrt(2*M_PI)*(params->xlam-1.)/2.*k/2./(in->eq.env.muR)*(std::sqrt((params->xJ + 1.)/2.*(params->xJ - 2.))*gsl_sf_bessel_jl(std::lround((params->xJ-3.)/2.), k*(*x)/2.)*(params->coefC1) - std::sqrt((params->xJ-1.)/2.*(params->xJ + 2.))*gsl_sf_bessel_jl(std::lround((params->xJ+1.)/2.), (*x)*k/2.)*(params->coefC2));
-        /*cout << "2: k: " << k << ", r: "<< *x << " === " << p << endl;*/
-        p *= (*in)(*x)*(*out)(*x);
-
-        if (std::lround((params->xJ + 1.)/2.)%2 == 0) {
-            fval[0] += (std::lround((params->xJ+1.)/4.)%2 == 0?1.:-1.)*p;
-        } else {
-            fval[1] += (std::lround((params->xJ-1.)/4.)%2 == 0?1.:-1.)*p;
-        }
-    }
 
     return 0;
 }
 
 template <class Eq>
 std::complex<double> Interaction<Eq>::melExJ(double xJ, double xlam, double xjf, double xji) {
-    double* res = new double[2];
+    double* jmel = new double[1];
     double err;
     struct melParamBundle params;
     params.obj = this;
     params.xJ = xJ;
-    params.xlam = xlam;
-    params.coefC1 = coefC(xJ-2., xJ, 2.-xlam, xjf, xji);
-    params.coefC2 = coefC(xJ+2., xJ, 2.-xlam, xjf, xji);
-    params.coefQ = coefQ(xJ, 2.-xlam, xjf, xji);
 
     /*cout << "melExJ. xJ: " << xJ << ", xlam: " << xlam << ", xjf: " << xjf << ", xji: " << xji << endl;*/
 
     double minR = 0.;
     double maxR = std::min(instate.maxR, outstate.maxR);
-    hcubature(2, melExJ_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, res, &err);
-    return std::complex<double>(res[0], res[1]);
+    hcubature(1, melExJ_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, jmel, &err);
+
+    double k = 2*outstate.eq.env.mC + outstate.eq.E;
+    k = -k + std::sqrt(k*k + 2*k*(instate.eq.E - outstate.eq.E));
+
+    std::complex<double> res = 0.;
+
+    if (std::lround((xJ-1.)/2.)%2 != 0
+            &&
+        std::lround(instate.eq.xS-outstate.eq.xS) == 0) {
+        res += -(std::lround((outstate.eq.xJ+instate.eq.xL-2.)/2.)%2 == 0 ? 1. : -1.)
+            *  std::sqrt(2*(xJ-1.)/2.*(xJ+1.)/2)*(instate.eq.E - outstate.eq.E)
+            *  gsl_sf_coupling_6j(outstate.eq.xJ-1., xJ-1., instate.eq.xJ-1.
+                                ,instate.eq.xL-1., instate.eq.xS-1., outstate.eq.xL-1.);
+    }
+
+    if (std::lround((instate.eq.xS+outstate.eq.xS+xJ-3.)/2.)%2 != 0) {
+        res += std::sqrt(3*xJ*instate.eq.xS*outstate.eq.xS)/2./instate.eq.env.muR
+            *  k*k
+            *  gsl_sf_coupling_6j(outstate.eq.xS-1., 2., instate.eq.xS-1.
+                                 ,1. ,1., 1.)
+            *  gsl_sf_coupling_9j(outstate.eq.xJ-1., instate.eq.xJ-1, xJ-1.
+                                 ,outstate.eq.xS-1., instate.eq.xS-1., 2.
+                                 ,outstate.eq.xL-1., instate.eq.xL-1., xJ-1.);
+    }
+
+    res *= jmel[0]/k*std::sqrt(instate.eq.xJ*instate.eq.xL)*xJ
+        *  clebsch(xJ, 2.-xlam, instate.eq.xJ, xji, outstate.eq.xJ, xjf)
+        * clebsch(xJ, 1., instate.eq.xL, 1., outstate.eq.xL, 1.);
+
+    if (std::lround((xJ-1.)/2. + outstate.eq.xS + 1.)%2 == 0) {
+        res *= (std::lround((xJ-1.)/2. + outstate.eq.xS + 1.)%4 == 0 ? 1. : -1.);
+    } else {
+        res *= (std::lround((xJ-1.)/2. + outstate.eq.xS)%4 == 0 ? 1. : -1.)
+            *  std::complex<double>(0., 1.);
+    }
+
+    return res;
 }
 
 template <class Eq>
@@ -236,32 +215,37 @@ int Interaction<Eq>::melELW_f(unsigned ndim
     double k = 2*out->eq.env.mC + out->eq.E;
     k = -k + std::sqrt(k*k + 2*k*(in->eq.E - out->eq.E));
 
-    fval[0] = 0.;
-    fval[1] = 0.;
-
-    double p = std::sqrt(4*M_PI)*(*in)(*x)*(*out)(*x);
-    p *= (*x)*(out->eq.E - in->eq.E)*(params->coefQ);
-    fval[1] += p;
+    fval[0] = (*x)*(*in)(*x)*(*out)(*x);
 
     return 0;
 }
 
 template <class Eq>
 std::complex<double> Interaction<Eq>::melELW(double xlam, double xjf, double xji) {
-    double* res = new double[2];
+    if (std::lround(instate.eq.xS-outstate.eq.xS) != 0) {
+        return 0.;
+    }
+
+    double* rmel = new double[1];
     double err;
     struct melParamBundle params;
     params.obj = this;
-    params.xlam = xlam;
-    params.coefQ = coefQ(3., 2.-xlam, xjf, xji);
     /*cout << "xjf: " << xjf << ", xji: " << xji << ", xlam: " << xlam << " :: " << params.coefQ << endl;*/
     /*cout << "Ef: " << outstate.eq.E << ", Ei: " << instate.eq.E << endl;*/
 
     double minR = 0.;
     double maxR = std::min(instate.maxR, outstate.maxR);
-    hcubature(2, melELW_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, res, &err);
+    hcubature(1, melELW_f, &params, 1, &minR, &maxR, 0, 1E-5, 0, ERROR_INDIVIDUAL, rmel, &err);
     /*cout << "Mel: " <<  res[0] << " + i" << res[1] << endl;*/
-    return std::complex<double>(res[0], res[1]);
+
+    std::complex<double> res = -std::complex<double>(0., 1.)*(instate.eq.E - outstate.eq.E)*std::sqrt(instate.eq.xL*instate.eq.xJ)
+                             * clebsch(3., 2.-xlam, instate.eq.xJ, xji, outstate.eq.xJ, xjf)
+                             * clebsch(3., 1., instate.eq.xL, 1., outstate.eq.xL, 1.)
+                             * gsl_sf_coupling_6j(outstate.eq.xJ-1., 2., instate.eq.xJ-1.
+                                                 ,instate.eq.xL-1., instate.eq.xS-1., outstate.eq.xL-1.)
+                             * (std::lround((outstate.eq.xS + outstate.eq.xJ + instate.eq.xL -3.)/2. + 1.)%2 ? 1. : -1.)
+                             * rmel[0];
+    return res;
 }
 
 template <class Eq>

@@ -20,6 +20,7 @@ from IPython.display import display
 import matplotlib.pyplot as plt
 from functools import cmp_to_key
 import re
+from pylatex import Tabular, LongTable, Tabularx, MultiColumn, MultiRow, NoEscape
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18

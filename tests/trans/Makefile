@@ -7,7 +7,7 @@ LIBS:=-lm -lgsl -lgslcblas -lboost_filesystem -lboost_system
 
 TRANSITIONS:=$(basename $(notdir $(wildcard transitions/*.cfg)))
 
-.PHONY: all prepare generate clean $(TRANSITIONS)
+.PHONY: all prepare generate export clean $(TRANSITIONS)
 
 all_$(NAME): $(NAME)Lin.exe $(NAME)Scr.exe
 
@@ -34,6 +34,10 @@ $(NAME)Scr.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o hcubature.o 
 	$(PRECOMPILE)
 	$(LINK) -include $(NAME)Scr.hpp  -o $@ $(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o hcubature.o utils.o)
 	$(POSTCOMPILE)
+
+export:
+	jupyter nbconvert --to html --execute  $(NAME).ipynb
+	mv $(NAME).html export/
 
 clean:
 	$(RM) ./output/

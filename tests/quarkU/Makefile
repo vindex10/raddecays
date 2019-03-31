@@ -7,7 +7,7 @@ LIBS:=-lm -lgsl -lgslcblas -lboost_filesystem -lboost_system
 
 STATES=$(basename $(notdir $(wildcard states/*)))
 
-.PHONY: all generate prepare clean $(STATES)
+.PHONY: all generate prepare export clean $(STATES)
 
 all: $(NAME)Lin.exe $(NAME)Scr.exe
 
@@ -31,6 +31,10 @@ $(NAME)Scr.exe:$(NAME).cpp $(addprefix $(BUILD)/, env_deng2016scr.o observers.o)
 	$(PRECOMPILE)
 	$(LINK) -include $(NAME)Scr.hpp $(BUILD)/env_deng2016scr.o $(BUILD)/observers.o -o $@ $(NAME).cpp
 	$(POSTCOMPILE)
+
+export:
+	jupyter nbconvert --to html --execute  $(NAME).ipynb
+	mv $(NAME).html export/
 
 clean:
 	$(RM) ./output/

@@ -1,6 +1,8 @@
 numpy
 scipy
+jupyter
 sympy
 matplotlib
 pandas
 pylatex
+pillow

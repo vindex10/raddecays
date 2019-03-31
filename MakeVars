@@ -5,7 +5,7 @@ DEPDIR=$(@D)/$(DEPDIRNAME)
 DEPREQS=$(DEPDIR)/$(@F).d
 
 ,:=,
-sp:= 
+sp:=
 
 MKDIR:=mkdir -p
 CP:=cp -rfi
@@ -13,7 +13,7 @@ RM:=-rm -rfi
 
 FLAGS=-std=c++14 -O3 -MT $(@F) -MMD -MP -MF $(DEPREQS:.d=.Td) # put -O3 here when ready
 
-INCLUDE_PATH:=-I/usr/include/eigen3 -I$(BUILD)/include -I$(SRC)
+INCLUDE_PATH:=-I$(BUILD)/include/eigen3 -I$(BUILD)/include -I$(SRC)
 LIBRARY_PATH:=-L$(BUILD)/lib -L$(BUILD)/lib64
 
 PRECOMPILE=$(MKDIR) $(DEPDIR)

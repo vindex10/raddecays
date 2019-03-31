@@ -4,7 +4,7 @@ EXTSRC:=$(SRC)/extsrc
 
 .PHONY: all
 
-all: $(addprefix $(BUILD)/, include/nlohmann/json.hpp include/fifo_map.hpp lib64/libnlopt.so hcubature.o)
+all: $(addprefix $(BUILD)/, include/nlohmann/json.hpp include/fifo_map.hpp lib64/libnlopt.so hcubature.o include/eigen3/Eigen/Dense)
 
 $(BUILD)/include/nlohmann/json.hpp:
 	$(MKDIR) $(BUILD)/include

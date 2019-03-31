@@ -6,7 +6,7 @@ LIBS:=-lm -lgsl -lgslcblas -lnlopt -lboost_system -lboost_filesystem
 
 STATES:=$(basename $(notdir $(wildcard states/*)))
 
-.PHONY: all generate clean $(STATES)
+.PHONY: all generate export clean $(STATES)
 
 all_$(NAME): $(NAME)Lin.exe $(NAME)Scr.exe
 
@@ -27,6 +27,10 @@ $(NAME)Scr.exe:$(NAME).cpp $(BUILD)/env_deng2016scr.o $$(DEPREQS)
 	$(PRECOMPILE)
 	$(LINK) -include $(NAME)Scr.hpp $(BUILD)/env_deng2016scr.o -o $(NAME)Scr.exe $(NAME).cpp
 	$(POSTCOMPILE)
+
+export:
+	jupyter nbconvert --to html --execute  $(NAME).ipynb
+	mv $(NAME).html export/
 
 clean:
 	$(RM) ./output/

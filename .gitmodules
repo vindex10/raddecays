@@ -19,3 +19,6 @@
 [submodule "extsrc/json"]
 	path = extsrc/json
 	url = https://github.com/nlohmann/json.git
+[submodule "extsrc/eigen-git-mirror"]
+	path = extsrc/eigen-git-mirror
+	url = https://github.com/eigenteam/eigen-git-mirror

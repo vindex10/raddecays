@@ -1,4 +1,5 @@
 include ../MakeVars
+FLAGS=-std=c++14 -O3 # put -O3 here when ready
 EXTSRC:=$(SRC)/extsrc
 
 .PHONY: all
@@ -23,3 +24,8 @@ $(BUILD)/hcubature.o:
 	$(CC) -o $@ $(EXTSRC)/cubature/hcubature.c
 	$(CP) $(EXTSRC)/cubature/cubature.h $(BUILD)/include/cubature.h
 
+$(BUILD)/include/eigen3/Eigen/Dense:
+	$(MKDIR) $(EXTSRC)/eigen-git-mirror/build
+	cmake -DCMAKE_INSTALL_PREFIX=$(BUILD) -B$(EXTSRC)/eigen-git-mirror/build -H$(EXTSRC)/eigen-git-mirror
+	make -C $(EXTSRC)/eigen-git-mirror/build
+	make -C $(EXTSRC)/eigen-git-mirror/build install

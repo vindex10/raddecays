@@ -26,6 +26,9 @@ SMALL_SIZE = 14
 MEDIUM_SIZE = 18
 BIGGER_SIZE = 20
 
+FIG_HSIZE = 8
+FIG_VSIZE = 6
+
 plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=MEDIUM_SIZE)     # fontsize of the axes title
 plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
@@ -39,7 +42,7 @@ pd.options.display.float_format = "{:.3g}".format
 
 def code2name(code):
     parts = code.split("_")
-    
+
     vocab = {"yps": r"\Upsilon"
             ,"eta": r"\eta"
             ,"chi": r"\chi"
@@ -139,12 +142,12 @@ def readSpec(fname):
             if line == "" and in_data == True:
                 in_data = False
                 break
-            
+
             nospace = line.replace(" ", "")
             if nospace == "#Columns:":
                 in_columns = True
                 continue
-            
+
             if in_columns and nospace.startswith("#*"):
                 in_data = True
                 parts = line.split("::")
@@ -168,15 +171,15 @@ def dimTrans(indim, outdim):
         , "T": 10**12
         , "P": 10**15
     }
-    
+
     try:
         incode = dimre.match(indim).group(1)
     except AttributeError:
         incode = ""
-        
+
     try:
         outcode = dimre.match(outdim).group(1)
     except AttributeError:
         outcode = ""
-        
+
     return codes[incode]/codes[outcode]
